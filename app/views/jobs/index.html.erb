@@ -2,21 +2,22 @@
 
 <h1>Jobs</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Street address</th>
-      <th>Suburb</th>
-      <th>Postcode</th>
-      <th>State</th>
-      <th>Price</th>
-      <th>Status</th>
-      <th>Successful</th>
-      <th>Paid on time</th>
-      <th>Tradie</th>
-      <th>Homeowner</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Street address</th>
+      <th scope="col">Suburb</th>
+      <th scope="col">Postcode</th>
+      <th scope="col">State</th>
+      <th scope="col">Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Successful</th>
+      <th scope="col">Paid on time</th>
+      <th scope="col">Payment terms</th>
+      <th scope="col">Tradie</th>
+      <th scope="col">Homeowner</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -34,11 +35,12 @@
         <td><%= job.status %></td>
         <td><%= job.successful %></td>
         <td><%= job.paid_on_time %></td>
+        <td><%= job.payment_terms %></td>
         <td><%= job.tradie_id %></td>
         <td><%= job.homeowner_id %></td>
-        <td><%= link_to 'Show', job %></td>
-        <td><%= link_to 'Edit', edit_job_path(job) %></td>
-        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', job, class: "btn btn-dark btn-md" %></td>
+        <td><%= link_to 'Edit', edit_job_path(job), class: "btn btn-dark btn-md" %></td>
+        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-md" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -46,4 +48,4 @@
 
 <br>
 
-<%= link_to 'New Job', new_job_path %>
+<%= link_to 'New Job', new_job_path, class: "btn btn-primary btn-lg" %>

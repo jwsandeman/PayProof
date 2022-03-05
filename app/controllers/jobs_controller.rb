@@ -21,7 +21,8 @@ class JobsController < ApplicationController
 
   # POST /jobs or /jobs.json
   def create
-    @job = Job.new(job_params, homeowner_id: current_user)
+    @job = Job.new(job_params)
+    @job.homeowner_id = current_user.id
 
     respond_to do |format|
       if @job.save
@@ -65,6 +66,6 @@ class JobsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def job_params
-      params.require(:job).permit(:title, :description, :street_address, :suburb, :postcode, :state, :price, :status, :successful, :paid_on_time) # :tradie_id, :homeowner_id)
+      params.require(:job).permit(:title, :description, :street_address, :suburb, :postcode, :state, :price, :status, :successful, :paid_on_time, :payment_terms) # :tradie_id, :homeowner_id)
     end
 end

@@ -9,21 +9,26 @@
     <%= f.input :street_address %>
     <%= f.input :suburb %>
     <%= f.input :postcode %>
-    <%= f.input :state %>
-    <%= f.input :price %>
-    <%= f.association :homeowner_id %>
+    <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
+    <%= f.input :price, required: false %>
+    <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
     <% if @job.status_active? %>
       <%= f.input :successful %>
-      <%# need to figure out why this is still showing up %>
       <%= f.input :paid_on_time %>
     <% end %>
-    <%= f.input :paid_on_time %>
+
+    <%# <br> %>
+    <%# <%= f.file_field :photo, class: "form-control", label: 'Upload photos of the job here' %>
+
     <%# These aren't needed and cause errors %>
+    <%# <%= f.association :homeowner_id %> 
     <%# <%= f.input :status %>
     <%# <%= f.association :tradie_id %>
+    
   </div>
-
+  <br>
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: "btn btn-primary btn-md" %>
   </div>
+  <br>
 <% end %>
