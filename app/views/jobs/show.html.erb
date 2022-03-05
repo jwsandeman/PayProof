@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<%= image_tag @job.picture if @job.picture.attached? %>
+<%# displays each image associated with this job %>
+<% if @job.documents.attached? %>
+  <% @job.documents.each do |document| %>
+    <%= image_tag document %>
+  <% end %>
+<% end %>
 
 <p>
   <strong>Title:</strong>

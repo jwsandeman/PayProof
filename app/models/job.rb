@@ -3,8 +3,8 @@ class Job < ApplicationRecord
   belongs_to :tradie, class_name: 'User', optional: true
   belongs_to :homeowner, class_name: 'User'
 
-  # enables pictures to be attached and associated with the job model
-  has_one_attached :picture
+  # enables many files to be attached and associated with the job model
+  has_many_attached :documents
 
   # Enums for status variable (open, active, closed)
   # job.status_active?    # Returns true if job.status == 'active'

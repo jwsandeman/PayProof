@@ -16,15 +16,13 @@
       <%= f.input :successful %>
       <%= f.input :paid_on_time %>
     <% end %>
-
     <br>
-    <%= f.file_field :picture, class: "form-control", label: 'Upload photos of the job here' %>
-
-    <%# These aren't needed and cause errors %>
+    <%# allows the user to upload multiple files %>
+    <%= f.file_field :documents, multiple: true, class: "form-control", label: 'Upload photos of the job here' %>
+    <%# These aren't needed %>
     <%# <%= f.association :homeowner_id %> 
     <%# <%= f.input :status %>
     <%# <%= f.association :tradie_id %>
-    
   </div>
   <br>
   <div class="form-actions">
