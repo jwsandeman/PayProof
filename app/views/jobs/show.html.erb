@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= image_tag @job.picture if @job.picture.attached? %>
+
 <p>
   <strong>Title:</strong>
   <%= @job.title %>
@@ -65,5 +67,5 @@
   <%= @job.homeowner_id %>
 </p>
 
-<%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Back', jobs_path %>
+<%= link_to 'Edit', edit_job_path(@job), class: "btn btn-dark btn-md" %>
+<%= link_to 'Back', jobs_path, class: "btn btn-dark btn-md" %>
