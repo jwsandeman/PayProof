@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @job.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @job.description %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @job.street_address %>
+</p>
+
+<p>
+  <strong>Suburb:</strong>
+  <%= @job.suburb %>
+</p>
+
+<p>
+  <strong>Postcode:</strong>
+  <%= @job.postcode %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @job.state %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @job.price %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @job.status %>
+</p>
+
+<p>
+  <strong>Successful:</strong>
+  <%= @job.successful %>
+</p>
+
+<p>
+  <strong>Paid on time:</strong>
+  <%= @job.paid_on_time %>
+</p>
+
+<p>
+  <strong>Tradie:</strong>
+  <%= @job.tradie_id %>
+</p>
+
+<p>
+  <strong>Homeowner:</strong>
+  <%= @job.homeowner_id %>
+</p>
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>
