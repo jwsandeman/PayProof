@@ -7,70 +7,26 @@
   <% end %>
 <% end %>
 
-<p>
-  <strong>Title:</strong>
-  <%= @job.title %>
-</p>
+<p><strong>Title:</strong><%= @job.title %></p>
+<p><strong>Description:</strong><%= @job.description %></p>
+<p><strong>Suburb:</strong><%= @job.suburb %></p>
+<p><strong>State:</strong><%= @job.state %></p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @job.description %>
-</p>
+<% if current_user.id == @job.homeowner_id || current_user.id == @job.tradie_id %>
+  <p><strong>Street address:</strong><%= @job.street_address %></p>
+  <p><strong>Postcode:</strong><%= @job.postcode %></p>
+  <p><strong>Price:</strong><%= @job.price %></p>
+  <p><strong>Status:</strong><%= @job.status %></p>
+  <p><strong>Successful:</strong><%= @job.successful %></p>
+  <p><strong>Paid on time:</strong><%= @job.paid_on_time %></p>
+  <p><strong>Payment terms:</strong><%= @job.payment_terms %> days</p>
+  <p><strong>Tradie:</strong><%= @job.tradie_id %></p>
+  <p><strong>Homeowner:</strong><%= @job.homeowner_id %></p>
+  <%= link_to 'Edit', edit_job_path(@job), class: "btn btn-dark btn-md" %>
+<% end %>
 
-<p>
-  <strong>Street address:</strong>
-  <%= @job.street_address %>
-</p>
+<% if @job.status_open? && current_user.tradie %>
+  <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-success btn-md" %>
+<% end %>
 
-<p>
-  <strong>Suburb:</strong>
-  <%= @job.suburb %>
-</p>
-
-<p>
-  <strong>Postcode:</strong>
-  <%= @job.postcode %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%= @job.state %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @job.price %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @job.status %>
-</p>
-
-<p>
-  <strong>Successful:</strong>
-  <%= @job.successful %>
-</p>
-
-<p>
-  <strong>Paid on time:</strong>
-  <%= @job.paid_on_time %>
-</p>
-
-<p>
-  <strong>Payment terms:</strong>
-  <%= @job.payment_terms %>
-</p>
-
-<p>
-  <strong>Tradie:</strong>
-  <%= @job.tradie_id %>
-</p>
-
-<p>
-  <strong>Homeowner:</strong>
-  <%= @job.homeowner_id %>
-</p>
-
-<%= link_to 'Edit', edit_job_path(@job), class: "btn btn-dark btn-md" %>
-<%= link_to 'Back', jobs_path, class: "btn btn-dark btn-md" %>
+<%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>

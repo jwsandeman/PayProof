@@ -1,13 +1,20 @@
+<%# <div class="row"> %>
 <% @jobs.each do |job| %>
+  <%# <div class="col-md-4"> %>
   <div class="card mb-3">
     <div class="card-header">
       <%= job.title %>
     </div>
+    <div class="row">
     <% if job.documents.attached? %>
-      <%# <% job.documents.each do |document| %>
-        <%= image_tag job.documents.first, class: "card-img-top" %>
-      <%# <% end %>
+      <% job.documents.each do |document| %>
+        <div class="col-md-4">
+        <%# <%= image_tag job.documents.first, class: "card-img-top", style: "width: 100%;"%>
+        <%= image_tag document, class: "card-img-top", style: "height: 400px;"%>
+        </div>
+      <% end %>
     <% end %>
+    </div>
     <div class="card-body">
       <h5 class="card-title"><%= job.suburb.capitalize %></h5>
       <p class="card-text"><%= job.description %></p>
@@ -20,4 +27,6 @@
       <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-success" %>
     </div>
   </div>
+  <%# </div> %>
 <% end %>
+<%# </div> %>

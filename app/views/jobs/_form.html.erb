@@ -4,21 +4,29 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :street_address %>
-    <%= f.input :suburb %>
-    <%= f.input :postcode %>
-    <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
-    <%= f.input :price, required: false %>
-    <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
-    <% if @job.status_active? %>
-      <%= f.input :successful %>
-      <%= f.input :paid_on_time %>
+    <% if current_user.id == @job.homeowner_id %>
+      <%= f.input :title %>
+      <%= f.input :description %>
+      <%= f.input :street_address %>
+      <%= f.input :suburb %>
+      <%= f.input :postcode %>
+      <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
+      <%= f.input :price, required: false %>
+      <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
+      <% if @job.status_active? %>
+        <%= f.input :successful %>
+        <%= f.input :paid_on_time %>
+      <% end %>
+      <br>
+      <p>Upload photos of the job here</p>
+      <%# allows the user to upload multiple files %>
+      <%= f.file_field :documents, multiple: true, class: "form-control", label: 'Upload photos of the job here' %>
     <% end %>
-    <br>
-    <%# allows the user to upload multiple files %>
-    <%= f.file_field :documents, multiple: true, class: "form-control", label: 'Upload photos of the job here' %>
+    <% if current_user.tradie %>
+      <p>Upload quote here</p>
+      <%= f.file_field :documents, multiple: true, class: "form-control" %>
+    <% end %>
+    
     <%# These aren't needed %>
     <%# <%= f.association :homeowner_id %> 
     <%# <%= f.input :status %>

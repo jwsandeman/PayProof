@@ -13,6 +13,8 @@
     <%= f.input :postcode %>
     <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
     <%= f.input :phone_number %>
+    <%= f.input :tradie, label: 'I am a tradie looking for work' %>
+    <br>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
@@ -31,13 +33,12 @@
                 input_html: { autocomplete: "current-password" } %>
   </div>
 
+  <br>
   <div class="form-actions">
-    <%= f.button :submit, "Update" %>
+    <p>
+      <%= f.button :submit, "Update", class: "btn btn-outline-success btn-md" %> 
+      <%= link_to "Back", :back, class: "btn btn-outline-dark btn-md" %> 
+      <%= link_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger btn-md" %>
+    </p>
   </div>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
