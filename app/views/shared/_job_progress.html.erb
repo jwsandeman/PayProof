@@ -1,0 +1,115 @@
+<div class="list-group">
+
+    <%# submit quote step %>
+    <% if @job.status_open? %>
+        <li class="list-group-item list-group-item-action list-group-item-primary">
+        <span class="badge bg-primary rounded-pill">In Progress</span> Quote Submitted
+        <%# may not need this button as the tradie always sees a different submit quote button %>
+        <%# <span class="progress_button"><%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-sm" %>
+        </li>
+    <% else %>
+        <li class="list-group-item list-group-item-action list-group-item-success">
+        <span class="badge bg-success rounded-pill">
+            Completed 
+        </span> Quote Submitted</span>
+        </li>
+    <% end%>
+
+    <%# funds verified step %>
+    <% if @job.status_open? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> PayProof Funds Verification
+        </li>
+    <% elsif @job.status_active? %>
+        <li class="list-group-item list-group-item-action list-group-item-primary">
+        <span class="badge bg-primary rounded-pill">In Progress</span> PayProof Funds Verification 
+        <% if current_user.id == @job.homeowner_id %>
+          <span class="progress_button"><%= link_to 'Verify Funds', edit_job_path(@job), class: "btn btn-outline-primary btn-sm" %></span>
+        <% end %>
+        </li>
+    <% else %>
+        <li class="list-group-item list-group-item-action list-group-item-success">
+        <span class="badge bg-success rounded-pill">Completed</span> PayProof Funds Verification</span>
+        </li>     
+    <% end%>
+
+    <%# job finished step %>
+    <% if @job.status_open? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Job Finished
+        </li>      
+    <% elsif @job.status_active? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Job Finished
+        </li>  
+    <% elsif @job.status_verified?  %>
+        <li class="list-group-item list-group-item-action list-group-item-primary">
+        <span class="badge bg-primary rounded-pill">In Progress</span> Job Finished 
+        <% if current_user.id == @job.tradie_id %>
+          <span class="progress_button"><%= link_to 'Job Completed', edit_job_path(@job), class: "btn btn-outline-primary btn-sm" %></span>
+        <% end %>
+        </li>  
+    <% else %>
+        <li class="list-group-item list-group-item-action list-group-item-success">
+        <span class="badge bg-success rounded-pill">Completed</span> Job Finished 
+        </li>      
+    <% end%>
+
+    <%# payment sent step %>
+    <% if @job.status_open? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Sent 
+        </li>      
+    <% elsif @job.status_active? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Sent 
+        </li>  
+    <% elsif @job.status_verified? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Sent 
+        </li>  
+    <% elsif @job.status_finished? %>
+        <li class="list-group-item list-group-item-action list-group-item-primary">
+        <span class="badge bg-primary rounded-pill">In Progress</span> Payment Sent 
+        <% if current_user.id == @job.homeowner_id %>
+          <span class="progress_button"><%= link_to 'Pay Tradie', edit_job_path(@job), class: "btn btn-outline-primary btn-sm" %></span>
+        <% end %>
+    <% else %>
+        <li class="list-group-item list-group-item-action list-group-item-success">
+        <span class="badge bg-success rounded-pill">Completed</span> Payment Sent 
+        </li>      
+    <% end%>
+
+    <%# payment received step %>
+    <% if @job.status_open? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Received
+        </li>      
+    <% elsif @job.status_active? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Received
+        </li>
+    <% elsif @job.status_verified? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Received
+        </li>
+    <% elsif @job.status_finished? %>
+        <li class="list-group-item list-group-item-action list-group-item-secondary">
+        <span class="badge bg-secondary rounded-pill">Waiting</span> Payment Received
+        </li>
+    <% elsif @job.status_sent? %>
+        <li class="list-group-item list-group-item-action list-group-item-primary">
+        <span class="badge bg-primary rounded-pill">In Progress</span> Payment Received 
+        <% if current_user.id == @job.tradie_id %>
+          <span class="progress_button"><%= link_to 'Payment Received', edit_job_path(@job), class: "btn btn-outline-primary btn-sm" %></span>
+        <% end %>
+        </li>
+    <% else %>
+        <li class="list-group-item list-group-item-action list-group-item-success">
+        <span class="badge bg-success rounded-pill">Completed</span> Payment Received
+        </li>      
+    <% end%>
+
+</div>
+
+ 

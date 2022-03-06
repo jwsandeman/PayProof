@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light ">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">PayProof</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,26 +7,24 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <%= link_to "Home", root_path, class: "nav-link active" %>
         </li>
-        <li class="nav-item">
-          <% if user_signed_in? %>
-            <%= link_to "My Jobs", jobs_path, class: "nav-link active" %>
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">New Job</a>
-        </li>
-        <li class="nav-item">
-          <% if user_signed_in? %>
-            <%= link_to "Profile", edit_user_registration_path, class: "nav-link active" %>
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <% if user_signed_in? %>
-            <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link active" %>
-          <% end %>
-        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item">
+              <%= link_to "My Jobs", jobs_path, class: "nav-link active" %>
+          </li>
+          <li class="nav-item">
+              <%= link_to "Profile", edit_user_registration_path, class: "nav-link active" %>
+          </li>
+          <li class="nav-item">
+              <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link active" %>
+          </li>
+        <% end %>
+        <% if !user_signed_in? %>
+          <li class="nav-item">
+              <%= link_to "Log in", new_user_session_path, class: "nav-link active" %>
+          </li>
+        <% end %>
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -34,18 +32,12 @@
       </form>
     </div>
   </div>
-  <form class="container-fluid justify-content-end">
-    <button class="btn btn-outline-primary me-2" type="button">New Job</button>
+  <form class="d-flex ">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown link
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
+    <li class="d-flex">
+      <% if !current_user.tradie? %>
+        <%= link_to 'New Job', new_job_path, class: "btn btn-outline-primary" %>
+      <% end %>
       </li>
     </ul>
   </form>

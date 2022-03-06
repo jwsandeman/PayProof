@@ -1,6 +1,15 @@
-<h1>Editing Job</h1>
+<% if current_user.id == @job.homeowner_id %>
+    <h1>Editing Job: <%= @job.title %></h1>
+<% else %>
+    <% if @job.status_open? %>
+    <h1>Submit Quote For: <%= @job.title %></h1>
+    <% elsif @job.status_active? %>
+        <h1>Editing Job: <%= @job.title %></h1>
+    <% end %>
+<% end %>
+
 
 <%= render 'form', job: @job %>
 
-<%= link_to 'Show', @job, class: "btn btn-dark btn-md" %>
-<%= link_to 'Back', jobs_path, class: "btn btn-dark btn-md" %>
+<%= link_to 'Show Job', @job, class: "btn btn-outline-primary btn-md" %>
+<%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>

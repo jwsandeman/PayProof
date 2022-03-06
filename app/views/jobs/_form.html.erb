@@ -4,29 +4,36 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <% if current_user.id == @job.homeowner_id %>
-      <%= f.input :title %>
-      <%= f.input :description %>
-      <%= f.input :street_address %>
-      <%= f.input :suburb %>
-      <%= f.input :postcode %>
-      <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
-      <%= f.input :price, required: false %>
-      <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
-      <% if @job.status_active? %>
-        <%= f.input :successful %>
-        <%= f.input :paid_on_time %>
+    <% if current_user.id? %>
+      <% if @job.status_open? %>
+        <%= f.input :title %>
+        <%= f.input :description %>
+        <%= f.input :street_address %>
+        <%= f.input :suburb %>
+        <%= f.input :postcode %>
+        <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
+        <%= f.input :price, required: false %>
+        <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
+      <% elsif @job.status_active? %>
+        <%= f.input :successful, label: "Was this job comleted successfully and on time?" %>
       <% end %>
       <br>
       <p>Upload photos of the job here</p>
       <%# allows the user to upload multiple files %>
       <%= f.file_field :documents, multiple: true, class: "form-control", label: 'Upload photos of the job here' %>
+    <% elsif current_user.tradie %>
+      <% if @job.status_open? %>
+        <p>Upload quote here</p>
+        <%= f.file_field :documents, multiple: true, class: "form-control" %>
+        <%= f.input :price, required: true %>
+      <% elsif @job.status_active? %>
+        <p>Upload job photos here</p>
+        <%= f.file_field :documents, multiple: true, class: "form-control" %>
+      <% elsif @job.status_closed? %>
+        <%= f.input :paid_on_time, label: "Did the homeonwer pay within the agreed payment terms?" %>
+      <% end %>
     <% end %>
-    <% if current_user.tradie %>
-      <p>Upload quote here</p>
-      <%= f.file_field :documents, multiple: true, class: "form-control" %>
-    <% end %>
-    
+
     <%# These aren't needed %>
     <%# <%= f.association :homeowner_id %> 
     <%# <%= f.input :status %>
@@ -34,7 +41,17 @@
   </div>
   <br>
   <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-primary btn-md" %>
+    <% if current_user.id == @job.homeowner_id %>
+      <%= f.button :submit, class: "btn btn-success btn-md" %>
+    <% elsif @job.homeowner_id == nil %>
+      <%= f.button :submit, class: "btn btn-success btn-md" %>
+    <% else %>
+      <% if @job.status_open? %>
+        <%= f.button :submit, "Submit Quote", class: "btn btn-success btn-md" %>
+      <% elsif @job.status_active? %>
+        <%= f.button :submit, "Upload photos", class: "btn btn-success btn-md" %>
+      <% end %>
+    <% end %>
   </div>
   <br>
 <% end %>

@@ -1,13 +1,17 @@
 <p id="notice"><%= notice %></p>
 
+<h1><%= @job.title %></h1>
+<% if @job.status_closed? %>
+  <h4>Completed by: <%= link_to @job.tradie.username, root_path %></h4>
+<% else %>
+  <h4>Job owner: <%= link_to @job.homeowner.username, root_path %></h4>
+<% end %>
 <%# displays each image associated with this job %>
 <% if @job.documents.attached? %>
   <% @job.documents.each do |document| %>
-    <%= image_tag document %>
+    <%= image_tag document, style: "width: 400px; height: 400px;" %>
   <% end %>
 <% end %>
-
-<p><strong>Title:</strong><%= @job.title %></p>
 <p><strong>Description:</strong><%= @job.description %></p>
 <p><strong>Suburb:</strong><%= @job.suburb %></p>
 <p><strong>State:</strong><%= @job.state %></p>
@@ -22,11 +26,17 @@
   <p><strong>Payment terms:</strong><%= @job.payment_terms %> days</p>
   <p><strong>Tradie:</strong><%= @job.tradie_id %></p>
   <p><strong>Homeowner:</strong><%= @job.homeowner_id %></p>
-  <%= link_to 'Edit', edit_job_path(@job), class: "btn btn-dark btn-md" %>
+
+  <%= render "shared/job_progress" %>
+
+  <br>
+  <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-dark btn-md" %>
+  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
+  <br>
 <% end %>
 
 <% if @job.status_open? && current_user.tradie %>
-  <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-success btn-md" %>
+    <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-success btn-md" %>
 <% end %>
 
-<%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
+

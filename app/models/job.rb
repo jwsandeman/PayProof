@@ -13,6 +13,9 @@ class Job < ApplicationRecord
   enum status: {
     open: 0,
     active: 1,
-    closed: 2
+    verified: 2,
+    finished: 3,
+    sent: 4,
+    closed: 5
   }, _prefix: true
 end 
