@@ -1,25 +1,23 @@
-<div class="card mb-3">
-  <div class="card-header">
-    Kitchen Reno
+<% @jobs.each do |job| %>
+  <div class="card mb-3">
+    <div class="card-header">
+      <%= job.title %>
+    </div>
+    <% if job.documents.attached? %>
+      <%# <% job.documents.each do |document| %>
+        <%= image_tag job.documents.first, class: "card-img-top" %>
+      <%# <% end %>
+    <% end %>
+    <div class="card-body">
+      <h5 class="card-title"><%= job.suburb.capitalize %></h5>
+      <p class="card-text"><%= job.description %></p>
+      <% if job.status_open? %>
+        <p class="card-text"><small class="text-muted"><%= job.status %> | Taking quotes! </small></p>
+      <% elsif job.status_closed? %>
+        <p class="card-text"><small class="text-muted"><%= job.status %> | <%= "Paid on Time" if job.paid_on_time %></small></p>
+      <% end %>
+      <%# <a href="#" class="btn btn-primary">View Job</a> %>
+      <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-success" %>
+    </div>
   </div>
-  <%= image_tag "job1", class: "job_image"%>
-  <div class="card-body">
-    <h5 class="card-title">Kitchen renovation in old queenslander</h5>
-    <p class="card-text">This renovation was carried out by vanguard builders and was completed successfully in 6 weeks.</p>
-    <p class="card-text"><small class="text-muted">Successfully completed | Paid on time</small></p>
-    <a href="#" class="btn btn-primary">View Job</a>
-  </div>
-</div>
-
-<div class="card mb-3">
-  <div class="card-header">
-    Kitchen Reno
-  </div>
-  <%= image_tag "job1", class: "job_image"%>
-  <div class="card-body">
-    <h5 class="card-title">Kitchen renovation in old queenslander</h5>
-    <p class="card-text">This renovation was carried out by vanguard builders and was completed successfully in 6 weeks.</p>
-    <p class="card-text"><small class="text-muted">Job is open | Taking quotes </small></p>
-    <a href="#" class="btn btn-primary">View Job</a>
-  </div>
-</div>
+<% end %>

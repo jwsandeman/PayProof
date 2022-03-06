@@ -3,7 +3,14 @@ class JobsController < ApplicationController
 
   # GET /jobs or /jobs.json
   def index
-    @jobs = Job.all
+    # this checks if the current user is a tradie
+    if current_user.tradie 
+      # this selects only jobs that belong to the current user (tradie) 
+      @jobs = Job.all.select {|job| job.tradie_id == current_user.id}
+    else
+      # this selects only jobs that belong to the current user (homeowner) 
+      @jobs = Job.all.select {|job| job.homeowner_id == current_user.id}
+    end
   end
 
   # GET /jobs/1 or /jobs/1.json
