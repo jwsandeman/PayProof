@@ -46,8 +46,12 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1 or /jobs/1.json
   def update
     respond_to do |format|
+      # this checks if the update was successful
       if @job.update(job_params)
-        @job.update(status: 'active', tradie_id: current_user.id)
+        if @job.status_open? && current_user.tradie?
+          # sets the current user as the tradie of the job
+          @job.update(tradie_id: current_user.id)
+        end
         format.html { redirect_to job_url(@job), notice: "Job was successfully updated." }
         format.json { render :show, status: :ok, location: @job }
       else

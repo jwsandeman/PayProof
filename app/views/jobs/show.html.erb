@@ -1,11 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @job.title %></h1>
-<% if @job.status_closed? %>
+
+<% if @job.status_closed? || current_user.id == @job.homeowner_id %>
   <h4>Completed by: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h4>
 <% else %>
   <h4><strong>Job owner: </strong><%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %></h4>
 <% end %>
+
 <h4><strong><%= @job.suburb %>, <%= @job.state %></strong></h4>
 <%# displays each image associated with this job %>
 <% if @job.documents.attached? %>
@@ -27,15 +29,19 @@
   <p><strong>Homeowner:</strong><%= @job.homeowner_id %></p>
 
   <%= render "shared/job_progress" %>
-
   <br>
-  <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-dark btn-md" %>
-  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
+  <% if current_user.id == @job.homeowner_id && @job.status_open? %>
+    <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-dark btn-md" %>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
+  <% else %>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
+  <% end %>
   <br>
 <% end %>
 
 <% if @job.status_open? && current_user.tradie %>
     <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-success btn-md" %>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %>
 <% end %>
 
 
