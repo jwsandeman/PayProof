@@ -38,9 +38,13 @@
         <td><%= job.payment_terms %></td>
         <td><%= job.tradie_id %></td>
         <td><%= job.homeowner_id %></td>
-        <td><%= link_to 'Show', job, class: "btn btn-dark btn-md" %></td>
-        <td><%= link_to 'Edit', edit_job_path(job), class: "btn btn-dark btn-md" %></td>
-        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-md" %></td>
+        <td><%= link_to 'Show', job, class: "btn btn-outline-dark btn-md" %></td>
+        <% if job.status_open? %>
+          <td><%= link_to 'Edit', edit_job_path(job), class: "btn btn-outline-dark btn-md" %></td>
+          <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure? All information associated with this job will be deleted including anything a tradie may have uploaded. This can not be undone' }, class: "btn btn-danger btn-md" %></td>
+        <% elsif job.status_active? || job.status_verified? %>
+          <td><%= link_to 'Cancel Job', edit_job_path(job), data: { confirm: 'Are you sure? This will cancel the job permanently. This does not null any prior agreements made with the other party. This can not be undone' }, class: "btn btn-outline-warning btn-md" %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

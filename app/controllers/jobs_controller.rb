@@ -48,7 +48,7 @@ class JobsController < ApplicationController
     respond_to do |format|
       # this checks if the update was successful
       if @job.update(job_params)
-        if @job.status_open? && current_user.tradie?
+        if @job.status_active? && current_user.tradie?
           # sets the current user as the tradie of the job once they submit a quote
           @job.update(tradie_id: current_user.id)
         end
