@@ -49,7 +49,7 @@ class JobsController < ApplicationController
       # this checks if the update was successful
       if @job.update(job_params)
         if @job.status_open? && current_user.tradie?
-          # sets the current user as the tradie of the job
+          # sets the current user as the tradie of the job once they submit a quote
           @job.update(tradie_id: current_user.id)
         end
         format.html { redirect_to job_url(@job), notice: "Job was successfully updated." }
