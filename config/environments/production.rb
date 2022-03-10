@@ -119,5 +119,4 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Devise default URl option for production 
-  config.action_mailer.default_url_options = { host: 'https://payproof.herokuapp.com/' }
 end
