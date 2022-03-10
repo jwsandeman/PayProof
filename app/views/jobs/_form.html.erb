@@ -54,6 +54,7 @@
           <%= f.button :submit, label: "Submit Review", class: "btn btn-success btn-md" %>
         </div>
       <% end %>
+      
     <%# if the current user is a tradie %>
     <% elsif current_user.tradie %>
       <% if @job.status_open? %>

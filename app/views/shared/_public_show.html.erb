@@ -1,0 +1,36 @@
+<h1><%= @job.title %></h1><hr>
+
+<% if @job.status_closed? && current_user.id == @job.homeowner_id %>
+    <h3>Completed by: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h3>
+<% else %>
+    <h3><strong>Job owner: </strong><%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %></h3>
+<% end %>
+
+<h4><strong><%= @job.suburb %>, <%= @job.state %></strong></h4>
+<%# image carousel %>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <%# displays each image associated with this job %>
+        <% if @job.documents.attached? %>
+            <% @job.documents.each do |document| %>
+            <div class="carousel-item active">
+                <%= image_tag document, class: "d-block w-100" %>
+            </div>
+            <% end %>
+        <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<hr><p><strong>Description: </strong><%= @job.description %></p><hr>

@@ -1,0 +1,32 @@
+<h1>Explore Jobs</h1>
+<% @jobs.each do |job| %>
+  <% if job.status_open? || job.status_closed? %>
+    <div class="d-flex justify-content-center">
+      <div class="card mb-3">
+        <h3 class="card-header">
+          <%= job.title %>
+        </h3>
+        <%# <% if job.documents.attached? %>
+          <%# <% job.documents.each do |document| %>
+            <%# <%= image_tag document, class: "card-img-top", style: "width: 400px; height: 400px;"%>
+          <%# <% end %>
+        <%# <% end %>
+        <%= image_tag job.documents.first, class: "card-img-top", style: "width: 100%;" %>
+        <div class="card-body">
+          <h4 class="card-title"><%= job.suburb.capitalize %></h4>
+          <p class="card-text"><%= job.description %></p>
+          <% if job.status_open? %>
+            <span class="badge bg-primary rounded-pill"><%= job.status %></span>
+            <span class="badge bg-primary rounded-pill">Taking quotes!</span>
+          <% elsif job.status_closed? %>
+            <span class="badge bg-success rounded-pill"><%= "Successfully Completed" if job.successful? %></span>
+            <span class="badge bg-success rounded-pill"><%= "Paid on Time" if job.paid_on_time %></span>
+          <% end %>
+          <div class="float-end">
+          <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
