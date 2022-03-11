@@ -13,8 +13,9 @@
     <%= f.input :postcode %>
     <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
     <%= f.input :phone_number %>
-    <%= f.input :tradie, label: 'I am a tradie looking for work' %>
-    <br>
+    <%= f.input :tradie, label: 'I am a tradie looking for work' %><br>
+    <p>Upload a profile picture here</p>
+    <%= f.file_field :profile_pic, class: "form-control" %><br>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>

@@ -1,18 +1,28 @@
 <%# display public job show page %>
-<%= render 'shared/public_show' %>
+<%= render 'shared/public_show' %> 
 
 <%# check if current user is the job homeowner or tradie %>
 <% if current_user.id == @job.homeowner_id || current_user.id == @job.tradie_id %>
-  <p><strong>Address: </strong><%= @job.street_address %>, <%= @job.suburb %>, <%= @job.postcode %>, <%= @job.state %></p>
+  <p><strong>Address: </strong><%= @job.full_address %></p>
   <p><strong>Price: </strong>$<%= @job.price.to_i %></p>
   <p><strong>Payment terms: </strong><%= @job.payment_terms %> days</p>
   <%# display job progress partial %>
   <%= render "shared/job_progress" %><br>
+  <h3>Quote:</h3>
+  <% if @job.quote.attached? %>
+    <%= image_tag @job.quote, class: "d-block w-100" %>
+  <% end %>
+  <h3>Completion Photos:</h3>
+  <% if @job.completion_photos.attached? %>
+    <% @job.completion_photos.each do |photo| %>
+      <%= image_tag photo, class: "d-block w-100" %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <%# check if current user is the job homeowner and if the job is open %>
 <% if current_user.id == @job.homeowner_id && @job.status_open? %>
-  <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-primary btn-md" %>
+  <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
 <%# check if current user is the job tradie and if the job is open %>
 <% elsif current_user.tradie && @job.status_open? %>
     <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>

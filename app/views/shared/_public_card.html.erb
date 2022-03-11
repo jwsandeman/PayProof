@@ -11,7 +11,9 @@
             <%# <%= image_tag document, class: "card-img-top", style: "width: 400px; height: 400px;"%>
           <%# <% end %>
         <%# <% end %>
-        <%= image_tag job.documents.first, class: "card-img-top", style: "width: 100%;" %>
+        <% if job.photos.attached? %>
+          <%= image_tag job.photos.first, class: "card-img-top", style: "width: 100%;" %>
+        <% end %>
         <div class="card-body">
           <h4 class="card-title"><%= job.suburb.capitalize %></h4>
           <p class="card-text"><%= job.description %></p>

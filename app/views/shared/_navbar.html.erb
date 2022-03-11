@@ -1,63 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light">
-  <div class="container-fluid w-75">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-md">
     <%= link_to "PayProof", root_path, class: "navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-  </div>
-  <form class="d-flex ">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="d-flex">
-        <% if user_signed_in? && !current_user.tradie? %>
-          <%= link_to 'New Job', new_job_path, class: "btn btn-outline-primary" %>
-        <% end %>
-      </li>
-      <% if user_signed_in? %>
-        <li class="nav-item">
-            <%= link_to "My Jobs", jobs_path, class: "nav-link active" %>
-        </li>
-        <li class="nav-item">
-            <%= link_to "Profile", edit_user_registration_path, class: "nav-link active" %>
-        </li>
-        <li class="nav-item">
-            <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link active" %>
-        </li>
-      <% end %>
-      <% if !user_signed_in? %>
-        <li class="nav-item">
-            <%= link_to "Log in", new_user_session_path, class: "nav-link active" %>
-        </li>
-      <% end %>
-    </ul>
-  </form>
-</nav>
-
-<%# <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="#">Hidden brand</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
+    <form class="container-fluid justify-content-center">
+      <div class="input-group mx-auto w-50">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
+      </div>
+    </form>
+      <ul class="navbar-nav align-items-center">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if current_user.profile_pic.attached? %>
+                <%= image_tag current_user.profile_pic, class: "rounded-circle", style: "width: 32px; height: 32px;" %>
+              <% else %>
+                <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="32" height="32" class="rounded-circle">
+              <% end %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+              <li class="nav-item">
+                  <%= link_to "@#{current_user.username}", profile_page_path(current_user.id), class: "dropdown-item" %>
+              </li>
+              <% if !current_user.tradie? %>
+                <li class="nav-item">
+                  <%= link_to 'New Job', new_job_path, class: "dropdown-item" %>
+                </li>
+              <% end %>
+              <li class="nav-item">
+                  <%= link_to "My Jobs", jobs_path, class: "dropdown-item" %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+              <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary" %>
+          </li>
+        <% end %>
+      </ul>
   </div>
-</nav> %>
+</nav>

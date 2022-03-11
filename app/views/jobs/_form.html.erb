@@ -6,25 +6,32 @@
   <div class="form-inputs">
     <%# if the current user is logged in and not a tradie %>
     <% if current_user.id? && !current_user.tradie? %>
+      
       <%# when the job status is set to open %>
       <% if @job.status_open? %>
-      <h1>Edit Job: <%= @job.title %></h1>
-        <%= f.input :title %>
-        <%= f.input :description %>
-        <%= f.input :street_address %>
-        <%= f.input :suburb %>
-        <%= f.input :postcode %>
-        <%= f.input :state, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
+        <% if @job.title == nil %>
+          <h1>Create Job: <%= @job.title %></h1>
+        <% else %>
+          <h1>Edit Job: <%= @job.title %></h1>
+        <% end %>
+        <%= f.input :title, required: true %>
+        <%= f.input :description, required: true %>
+        <%= f.input :street_address, required: true %>
+        <%= f.input :suburb, required: true %>
+        <%= f.input :postcode, required: true %>
+        <%= f.input :state, required: true, collection: ["QLD", "NT", "WA", "NSW", "ACT", "VIC", "SA", "TAS"] %>
         <%= f.input :price, required: false %>
         <%= f.input :payment_terms, collection: 7..30, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
         <br>
-        <p>Upload photos of the job here</p>
+        <p>Upload photos of the job here (you must upload at least one photo to the job)</p>
         <%# allows the user to upload multiple files %>
-        <%= f.file_field :documents, multiple: true, class: "form-control", label: 'Upload photos of the job here' %>
-        <br>
+        <%= f.file_field :photos, required: true, multiple: true, class: "form-control" %><br>
+        <p><strong>*Required Fields</strong></p>
         <div class="form-actions">
-          <%= f.button :submit, class: "btn btn-success btn-md" %>
+          <%= f.button :submit, class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
       <%# when the job status is set to active %>
       <% elsif @job.status_active? %>
         <h1>Verify Funds: <%= @job.title %></h1>
@@ -33,8 +40,10 @@
         <%= f.input :status, :as => :hidden, :input_html => { :value => "verified" } %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Verify Funds", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Verify Funds", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
       <%# when the job status is set to finished %> 
       <% elsif @job.status_finished? %>
         <h1>Send Payment: <%= @job.title %></h1>
@@ -42,8 +51,10 @@
         <%= f.input :status, :as => :hidden, :input_html => { :value => "sent" } %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Pay Tradie", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Pay Tradie", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
       <%# when the job status is set to closed %>
       <% elsif @job.status_closed? %>
         <h1>Review Job: <%= @job.title %></h1>
@@ -51,33 +62,42 @@
         <%# need to add review logic here %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Submit Review", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Submit Review", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
       <% end %>
       
     <%# if the current user is a tradie %>
     <% elsif current_user.tradie %>
+    
+      <%# if the job status is open %>
       <% if @job.status_open? %>
         <h1>Submit Quote For: <%= @job.title %></h1>
         <p>Upload quote here. Don't forget to add your payment details in your quote.</p>
-        <%= f.file_field :documents, multiple: true, class: "form-control" %>
+        <%= f.file_field :quote, class: "form-control" %>
         <%= f.input :price, required: true %>
         <%= f.input :payment_terms, collection: 7..30, required: true, label: 'Payment Terms (default: 7 days to make payment once job is completed)' %>
         <%= f.input :status, :as => :hidden, :input_html => { :value => "active" } %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Submit Quote", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Submit Quote", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
+      <%# if the job status is verified %>
       <% elsif @job.status_verified? %>
         <h1>Complete Job: <%= @job.title %></h1>
         <p>Upload photos of the completed job here</p>
         <%# change this to "completion_photos" later so that i can display only completion photos in the public card view %>
-        <%= f.file_field :documents, multiple: true, class: "form-control" %>
+        <%= f.file_field :completion_photos, multiple: true, class: "form-control" %>
         <%= f.input :status, :as => :hidden, :input_html => { :value => "finished" } %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Complete Job", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Complete Job", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
+      <%# if the job status is sent %>
       <% elsif @job.status_sent? %>
         <h1>Payment Received: <%= @job.title %></h1>
         <%= f.input :paid_on_time, label: "Homeonwer paid within the agreed payment terms of #{@job.payment_terms} days!" %>
@@ -85,15 +105,19 @@
         <%= f.input :status, :as => :hidden, :input_html => { :value => "closed" } %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Payment Received", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Payment Received", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
+
+      <%# if the job status is closed %>
       <% elsif @job.status_closed? %>
         <h1>Review Job: <%= @job.title %></h1>
         <p>Leave a review for the job owner that published the job.</p>
         <%# need to add review logic here %>
         <br>
         <div class="form-actions">
-          <%= f.button :submit, label: "Submit Review", class: "btn btn-success btn-md" %>
+          <%= f.button :submit, label: "Submit Review", class: "btn btn-outline-success btn-md" %>
+          <%= link_to 'Back', jobs_path, class: "btn btn-outline-dark btn-md" %>
         </div>
       <% end %>
     <% end %>

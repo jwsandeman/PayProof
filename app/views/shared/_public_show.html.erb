@@ -7,6 +7,13 @@
 <% end %>
 
 <h4><strong><%= @job.suburb %>, <%= @job.state %></strong></h4>
+
+<% if @job.photos.attached? %>
+    <% @job.photos.each do |photo| %>
+        <%= image_tag photo, class: "d-block w-100" %>
+    <% end %>
+<% end %>
+
 <%# image carousel %>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -16,10 +23,10 @@
     </div>
     <div class="carousel-inner">
         <%# displays each image associated with this job %>
-        <% if @job.documents.attached? %>
-            <% @job.documents.each do |document| %>
+        <% if @job.photos.attached? %>
+            <% @job.photos.each do |photos| %>
             <div class="carousel-item active">
-                <%= image_tag document, class: "d-block w-100" %>
+                <%= image_tag photos, class: "d-block w-100" %>
             </div>
             <% end %>
         <% end %>

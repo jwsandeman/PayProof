@@ -1,10 +1,33 @@
 <div class="d-flex justify-content-center">
   <div class="container">
-    <h1><%= @user.username %></h1>
-    <p><strong>Bio: <%= @user.bio %></strong>></p>
-    <p><strong>PayProof Score: <%= @user.bio %></strong>></p>
-    <p><strong>Positivity Score: <%= @user.bio %></strong>></p>
-    <p><strong>Reviews: <%= @user.bio %></strong>></p>
+  <br>
+    <div class="row  align-items-center">
+      <div class="col-md-auto">
+        <% if @user.profile_pic.attached? %>
+          <%= image_tag @user.profile_pic, class: "rounded-circle", style: "width: 160px; height: 160px;" %>
+        <% else %>
+          <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="160" height="160" class="rounded-circle">
+        <% end %>
+      </div>
+      <div class="col">
+        <h1><%= @user.username %></h1>
+        <em style="font-size: 24px;">@<%= @user.username %></em>
+      </div>
+    </div>
+    <hr>
+    <% if @user.bio %>
+      <p><strong><%= @user.bio %></strong></p>
+    <% end %>
+    <div class="row">
+      <div class="col">
+        <p><strong>PayProof Score: <%= @user.bio %></strong></p>
+      </div>
+      <div class="col">
+        <p><strong>Positivity Score: <%= @user.bio %></strong></p>
+      </div>
+    </div>
+    <hr>
+    <p><strong>Reviews: <%= @user.bio %></strong></p>
 
     <% if current_user.id == @user.id %>
         <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline-primary btn-md" %>
@@ -14,6 +37,6 @@
         <%= link_to "View Completed Jobs", profile_jobs_path, class: "btn btn-outline-primary btn-md" %>
     <% end %>
 
-    <%= link_to "Back", :back, class: "btn btn-outline-primary btn-md" %>
+    <%= link_to "Back", :back, class: "btn btn-outline-dark btn-md" %>
   </div>
 </div>
