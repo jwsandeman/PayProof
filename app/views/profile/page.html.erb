@@ -20,14 +20,30 @@
     <% end %>
     <div class="row">
       <div class="col">
-        <p><strong>PayProof Score: <%= @user.bio %></strong></p>
+        <p><strong>PayProof Score: </strong></p>
       </div>
       <div class="col">
-        <p><strong>Positivity Score: <%= @user.bio %></strong></p>
+        <% if @ratings.empty? %>
+          <p><strong>User Rating:</strong> No reviews yet</p>
+        <% else %>
+          <h4>User Rating: <%= @ratings.sum.to_f / @ratings.count.to_f %>/5</h4>
+          <p><em>Based on <%= @ratings.count %> review(s)</em></p>
+        <% end %>
       </div>
     </div>
     <hr>
-    <p><strong>Reviews: <%= @user.bio %></strong></p>
+    <p><strong>Reviews:</strong></p>
+    <% @user_reviews.each do |review| %>
+      <%# <% if review.job.tradie == @user && review.user.id != @user.id %>
+        <p><em><%= review.comment %></em></p>
+        <h5><%= review.rating %>/5</h5>
+      <%# <% elsif review.job.homeowner == @user && review.user.id != @user.id%>
+        <%# <p><em><%= review.comment</em></p> %>
+        <%# <h5><%= review.rating/5</h5> %>
+      <%# <% end %>
+    <% end %>
+
+   
 
     <% if current_user.id == @user.id %>
         <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline-primary btn-md" %>

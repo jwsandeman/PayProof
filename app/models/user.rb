@@ -5,6 +5,9 @@ class User < ApplicationRecord
 
   # allows user to attached a profile picture
   has_one_attached :profile_pic
+
+  # allows a user to have many reviews
+  has_many :reviews
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

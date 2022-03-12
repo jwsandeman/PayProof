@@ -12,6 +12,9 @@ class Job < ApplicationRecord
   # enables one quote file to be attached
   has_one_attached :quote
 
+  # allows a job to have many reviews
+  has_many :reviews
+
   # Enums for status variable (open, active, closed)
   # job.status_active?    # Returns true if job.status == 'active'
   # job.status_open!      # same as job.update(status: :open)

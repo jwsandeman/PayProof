@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_05_010623) do
+ActiveRecord::Schema.define(version: 2022_03_12_012437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 2022_03_05_010623) do
     t.index ["tradie_id"], name: "index_jobs_on_tradie_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.bigint "job_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["job_id"], name: "index_reviews_on_job_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -88,4 +99,6 @@ ActiveRecord::Schema.define(version: 2022_03_05_010623) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "jobs", "users", column: "homeowner_id"
   add_foreign_key "jobs", "users", column: "tradie_id"
+  add_foreign_key "reviews", "jobs"
+  add_foreign_key "reviews", "users"
 end

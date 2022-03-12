@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  get 'reviews/new'
   root 'home#page'
-  resources :jobs
+  resources :jobs do
+    resources :reviews
+  end
   devise_for :users
   get '/profile/:id/jobs', to: 'profile#jobs', as: 'profile_jobs'
   get '/profile/:id', to: 'profile#page', as: 'profile_page'
