@@ -5,7 +5,15 @@
 <%# <% end %>
 
 <h5><%= review.rating %>/5</h5>
-<p><%= review.comment %></p>
+<p><q><em><%= review.comment %></em></q></p>
+<p>
+    <% if review.user.profile_pic.attached? %>
+        <%= image_tag review.user.profile_pic, class: "rounded-circle", style: "width: 32px; height: 32px;" %>
+    <% else %>
+        <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="32" height="32" class="rounded-circle">
+    <% end %> 
+    <%= link_to "@#{review.user.username}", profile_page_path(review.user.id), style: "text-decoration: none;" %>
+</p>
 
 <% if user_signed_in? && review.user_id == current_user.id %>
     <%= link_to 'Edit Review', edit_job_review_path(review.job, review), class: "btn btn-outline-primary btn-sm" %>

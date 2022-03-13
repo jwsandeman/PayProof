@@ -1,7 +1,7 @@
 <h1><%= @job.title %></h1><hr>
 
 <% if @job.status_closed? && current_user.id == @job.homeowner_id %>
-    <h3>Completed by: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h3>
+    <h3>Tradesman: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h3>
 <% else %>
     <h3><strong>Job owner: </strong><%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %></h3>
 <% end %>

@@ -3,8 +3,12 @@
     <%= link_to "PayProof", root_path, class: "navbar-brand" %>
     <form class="container-fluid justify-content-center">
       <div class="input-group mx-auto w-50">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <%= simple_form_for :search_term, url: root_path, method: "GET", html: { class: 'form-control me-2' } do |f| %>
+          <%= f.input :suburb, label: false, placeholder: "enter suburb", input_html: {value: ""} %>   
+          <%= f.submit "Search", class: "btn btn-outline-success" %>
+        <% end %>
+        <%# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> %>
+        <%# <button class="btn btn-outline-success" type="submit">Search</button> %>
       </div>
     </form>
       <ul class="navbar-nav align-items-center">
@@ -18,6 +22,9 @@
               <% end %>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+              <li class="nav-item">
+                  <%= link_to "Home", root_path, class: "dropdown-item" %>
+              </li>
               <li class="nav-item">
                   <%= link_to "@#{current_user.username}", profile_page_path(current_user.id), class: "dropdown-item" %>
               </li>

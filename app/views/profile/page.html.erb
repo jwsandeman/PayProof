@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="container">
   <br>
+    <%# profile header %>
     <div class="row  align-items-center">
       <div class="col-md-auto">
         <% if @user.profile_pic.attached? %>
@@ -11,48 +12,75 @@
       </div>
       <div class="col">
         <h1><%= @user.username %></h1>
-        <em style="font-size: 24px;">@<%= @user.username %></em>
+        <em style="font-size: 24px; padding-bottom: 28px;">@<%= @user.username %></em>
+        <p><em style="padding-top: 8px;"><%= @user.tradie? ? "Tradesman" : "Homeowner" %></em></p>
       </div>
     </div>
-    <hr>
-    <% if @user.bio %>
-      <p><strong><%= @user.bio %></strong></p>
-    <% end %>
+    <hr style="border:3px solid #adb5bd">
+
+    <%# payproof and user rating %>
     <div class="row">
       <div class="col">
-        <p><strong>PayProof Score: </strong></p>
+        <% if @ratings.empty? %>
+          <span class="heading">PayProof Score</span>
+          <span class="fa-solid fa-credit-card"></span>
+          <span class="fa-solid fa-hammer"></span>
+          <span class="fa-solid fa-hammer"></span>
+          <span class="fa-solid fa-hammer"></span>
+          <span class="fa-solid fa-hammer"></span>
+          <p>No reviews yet</p>
+        <% else %>
+          <span class="heading">Payproof Score</span><span class="heading checked">88%</span>
+          <p>Paid 8/9 completed jobs on time.</p>
+        <% end %>
       </div>
       <div class="col">
         <% if @ratings.empty? %>
-          <p><strong>User Rating:</strong> No reviews yet</p>
+        <span class="heading">User Rating</span>
+        <span class="fa-solid fa-hammer"></span>
+        <span class="fa-solid fa-hammer"></span>
+        <span class="fa-solid fa-hammer"></span>
+        <span class="fa-solid fa-hammer"></span>
+        <span class="fa-solid fa-hammer"></span>
+        <p>No reviews yet</p>
         <% else %>
-          <h4>User Rating: <%= @ratings.sum.to_f / @ratings.count.to_f %>/5</h4>
-          <p><em>Based on <%= @ratings.count %> review(s)</em></p>
+        <%= render 'user_rating' %>
         <% end %>
       </div>
     </div>
-    <hr>
-    <p><strong>Reviews:</strong></p>
-    <% @user_reviews.each do |review| %>
-      <%# <% if review.job.tradie == @user && review.user.id != @user.id %>
-        <p><em><%= review.comment %></em></p>
-        <h5><%= review.rating %>/5</h5>
-      <%# <% elsif review.job.homeowner == @user && review.user.id != @user.id%>
-        <%# <p><em><%= review.comment</em></p> %>
-        <%# <h5><%= review.rating/5</h5> %>
-      <%# <% end %>
+    <hr style="border:3px solid #adb5bd">
+
+    <%# user bio %>
+    <% if @user.bio %>
+      <p><strong><%= @user.bio %></strong></p>
     <% end %>
 
-   
+    <%# reviews %>
+    <h3>Reviews</h3>
+    <% @user_reviews.each do |review| %>
+        <blockquote>
+          <%= render 'reviews/review', review: review %>
+        </blockquote>
+    <% end %>
 
+    <%# user's jobs %>
+    <% if @user.tradie? %>
+      <h3>Compeletd Jobs</h3>
+    <% else %>
+      <h3>Open Jobs</h3>
+    <% end %>
+    <% @jobs.each do |job| %>
+      <%# checks if the jobs have a status of open or closed %>
+      <% if job.status_open? || job.status_closed? %>
+          <%# displays job card partial %>
+          <%= render "shared/public_card", job: job %>
+      <% end %>
+    <% end %>
+
+    <%# nav buttons %>
     <% if current_user.id == @user.id %>
         <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline-primary btn-md" %>
-    <% elsif current_user.tradie %>
-        <%= link_to "View Open Jobs", profile_jobs_path, class: "btn btn-outline-primary btn-md" %>
-    <% elsif !current_user.tradie %>
-        <%= link_to "View Completed Jobs", profile_jobs_path, class: "btn btn-outline-primary btn-md" %>
     <% end %>
-
     <%= link_to "Back", :back, class: "btn btn-outline-dark btn-md" %>
   </div>
 </div>

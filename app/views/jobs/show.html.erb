@@ -27,7 +27,13 @@
     <%= render @job.reviews %><br>
     <%# alternative way to render a partial from the shared folder and pass the reviews %>
     <%# <%= render 'shared/review', reviews: @job.reviews %>
-    <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
+    <% if current_user.tradie? && @job.reviews? %>
+      <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
+      <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+    <% elsif @job.homeowner.reviews == nil %>
+      <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
+      <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -37,8 +43,10 @@
   <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
 <%# check if current user is the job tradie and if the job is open %>
 <% elsif current_user.tradie && @job.status_open? %>
-    <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
-    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+  <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
+  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+<% else %>
+  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
 <% end %>
 
 

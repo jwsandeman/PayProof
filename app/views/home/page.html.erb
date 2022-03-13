@@ -1,1 +1,15 @@
-<%= render "shared/public_card" %>
+<%# checks if suburb has been searched %>
+<% if @term.present? %>
+    <h1><%= @suburb.capitalize %> Jobs</h1>
+<% else %>
+    <h1>Explore Jobs</h1>
+<% end %>
+
+<%# loops through each job %>
+<% @jobs.each do |job| %>
+    <%# checks if the jobs have a status of open or closed %>
+    <% if job.status_open? || job.status_closed? %>
+        <%# displays job card partial %>
+        <%= render "shared/public_card", job: job %>
+    <% end %>
+<% end %>

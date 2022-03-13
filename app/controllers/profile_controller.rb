@@ -1,11 +1,14 @@
 class ProfileController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user
 
   def page
+    # find the reviews for the set_users profile page
     @reviews = Review.all
+    # set_users reviews
     @user_reviews = []
+    # all of set_users individual ratings
     @ratings = []
-
     # loops through all reviews
     @reviews.each do |review|
       # the tradie that worked on the job but not that tradies reviews
@@ -22,10 +25,10 @@ class ProfileController < ApplicationController
         @user_reviews << review
       end
     end
-  end
+    # the average rating of set_user
+    @average_rating = @ratings.sum.to_f / @ratings.count.to_f
 
-  def jobs
-    # @jobs = Job.find(user.id)
+    # find the jobs for the set_users profile page
     if @user.tradie 
       # this selects only jobs that belong to the set user's profile (tradie) 
       @jobs = Job.all.select {|job| job.tradie_id == @user.id && job.status_closed? }
@@ -33,6 +36,7 @@ class ProfileController < ApplicationController
       # this selects only jobs that belong to the set user's profile (homeowner) 
       @jobs = Job.all.select {|job| job.homeowner_id == @user.id && job.status_open? }
     end
+
   end
 
   private

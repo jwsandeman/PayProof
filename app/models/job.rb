@@ -28,7 +28,9 @@ class Job < ApplicationRecord
     closed: 5
   }, _prefix: true
 
+  # gets the full address
   def full_address
     "#{self.street_address} #{self.suburb.capitalize} #{self.postcode} #{self.state} "
   end
+
 end 
