@@ -1,4 +1,4 @@
-<h1><%= @job.title %></h1><hr>
+<h1><%= @job.title %></h1>
 
 <% if @job.status_closed? && current_user.id == @job.homeowner_id %>
     <h3>Tradesman: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h3>

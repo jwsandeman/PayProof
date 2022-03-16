@@ -23,29 +23,18 @@
       <div class="col">
         <% if @ratings.empty? %>
           <span class="heading">PayProof Score</span>
-          <span class="fa-solid fa-credit-card"></span>
-          <span class="fa-solid fa-hammer"></span>
-          <span class="fa-solid fa-hammer"></span>
-          <span class="fa-solid fa-hammer"></span>
-          <span class="fa-solid fa-hammer"></span>
           <p>No reviews yet</p>
         <% else %>
-          <span class="heading">Payproof Score</span><span class="heading checked">88%</span>
-          <p>Paid 8/9 completed jobs on time.</p>
+          <span class="heading">Payproof Score</span><span class="heading checked"><%= @user.payproof_score %></span>
+          <% if current_user.tradie? %>
+            <p><%= @successful_jobs %>/<%= @closed_jobs %> jobs completed successfully.</p>
+          <% else %>
+            <p><%= @paid_jobs %>/<%= @closed_jobs %> completed jobs paid on time.</p>
+          <% end %>
         <% end %>
       </div>
       <div class="col">
-        <% if @ratings.empty? %>
-        <span class="heading">User Rating</span>
-        <span class="fa-solid fa-hammer"></span>
-        <span class="fa-solid fa-hammer"></span>
-        <span class="fa-solid fa-hammer"></span>
-        <span class="fa-solid fa-hammer"></span>
-        <span class="fa-solid fa-hammer"></span>
-        <p>No reviews yet</p>
-        <% else %>
         <%= render 'user_rating' %>
-        <% end %>
       </div>
     </div>
     <hr style="border:3px solid #adb5bd">
