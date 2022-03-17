@@ -1,19 +1,20 @@
 class HomeController < ApplicationController
 
-  # sets all jobs for the home page
   def page
+    # sets all jobs for the home page
     @jobs = Job.all
+    # sets the search term
     @term = params["search_term"]
+    # checks if there is a search term present
     if @term.present?
+      # sets term to the suburb attribute
       @suburb = @term["suburb"]
+      # returns all jobs where subrub == search term
       @jobs = Job.where("lower(suburb) LIKE ?", "%#{@suburb.downcase}%")
     end
-  end
 
-  private
-  # not sure if i need this?
-  def job_params
-    params.require(:job).permit(:search_term)
+    # displays only jobs that are open or successful
+    @jobs = @jobs.select {|job| job.status_open? || job.successful }
   end
 
 end

@@ -25,7 +25,8 @@ class Job < ApplicationRecord
     verified: 2,
     finished: 3,
     sent: 4,
-    closed: 5
+    closed: 5,
+    cancelled: 6
   }, _prefix: true
 
   # gets the full address

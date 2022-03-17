@@ -23,9 +23,9 @@
       <div class="col">
         <% if @ratings.empty? %>
           <span class="heading">PayProof Score</span>
-          <p>No reviews yet</p>
+          <p>No completed jobs yet</p>
         <% else %>
-          <span class="heading">Payproof Score</span><span class="heading checked"><%= @user.payproof_score %></span>
+          <span class="heading">Payproof Score</span><span class="heading checked"><%= @payproof_score.floor %>%</span>
           <% if current_user.tradie? %>
             <p><%= @successful_jobs %>/<%= @closed_jobs %> jobs completed successfully.</p>
           <% else %>
@@ -59,8 +59,8 @@
       <h3>Open Jobs</h3>
     <% end %>
     <% @jobs.each do |job| %>
-      <%# checks if the jobs have a status of open or closed %>
-      <% if job.status_open? || job.status_closed? %>
+      <%# checks if the jobs have a status of open or successful %>
+      <% if job.status_open? || job.successful %>
           <%# displays job card partial %>
           <%= render "shared/public_card", job: job %>
       <% end %>

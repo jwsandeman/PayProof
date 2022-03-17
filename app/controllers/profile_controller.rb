@@ -38,25 +38,25 @@ class ProfileController < ApplicationController
     end
 
     # find out the payproof score of a user
-    # if current_user.tradie?
-    #   @closed_jobs = @user.tradie_jobs.status_closed.count
-    #   @successful_jobs = 0
-    #   @user.tradie_jobs.each do |job|
-    #     if job.successful
-    #       @successful_jobs += 1
-    #     end
-    #   end
-    #   @payproof_score = (@successful_jobs / @closed_jobs) * 100
-    # else
-    #   @closed_jobs = @user.homeowner_jobs.status_closed.count
-    #   @paid_jobs = 0
-    #   @user.homeowner_jobs.each do |job|
-    #     if job.paid_on_time
-    #       @paid_jobs += 1
-    #     end
-    #   end
-    #   @payproof_score = (@paid_jobs / @closed_jobs) * 100
-    # end
+    if current_user.tradie?
+      @closed_jobs = @user.tradie_jobs.status_closed.count
+      @successful_jobs = 0
+      @user.tradie_jobs.each do |job|
+        if job.successful
+          @successful_jobs += 1
+        end
+      end
+      @payproof_score = (@successful_jobs.to_f / @closed_jobs.to_f) * 100
+    else
+      @closed_jobs = @user.homeowner_jobs.status_closed.count
+      @paid_jobs = 0
+      @user.homeowner_jobs.each do |job| 
+        if job.paid_on_time
+          @paid_jobs += 1
+        end
+      end
+      @payproof_score = (@paid_jobs.to_f / @closed_jobs.to_f) * 100
+    end
   end
 
   private

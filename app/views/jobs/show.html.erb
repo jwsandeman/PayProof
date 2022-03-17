@@ -8,7 +8,11 @@
   <p><strong>Payment terms: </strong><%= @job.payment_terms %> days</p>
   <%# display job progress partial %>
 
-  <%= render "shared/job_progress" %><br>
+  <% if @job.status_cancelled? %>
+    <p><strong>This job was cancelled</strong>
+  <% else %>
+    <%= render "shared/job_progress" %><br>
+  <% end %>
 
   <h3>Quote:</h3>
   <% if @job.quote.attached? %>
@@ -27,7 +31,7 @@
     <%= render @job.reviews %><br>
     <%# alternative way to render a partial from the shared folder and pass the reviews %>
     <%# <%= render 'shared/review', reviews: @job.reviews %>
-    <% if current_user.tradie? && @job.reviews? %>
+    <% if current_user.tradie? && @job.reviews %>
       <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
       <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
     <% elsif @job.homeowner.reviews == nil %>

@@ -5,10 +5,13 @@
     <h1>Explore Jobs</h1>
 <% end %>
 
-<%# loops through each job %>
-<% @jobs.each do |job| %>
-    <%# checks if the jobs have a status of open or closed %>
-    <% if job.status_open? || job.status_closed? %>
+<%# checks if @jobs is empty or the search returned 0 results for that suburb %>
+<% if @jobs.empty? %>
+    <p>There are currently no open or completed jobs in this suburb.</p>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+<% else %>
+    <%# loops through each job in @jobs %>
+    <% @jobs.each do |job| %>
         <%# displays job card partial %>
         <%= render "shared/public_card", job: job %>
     <% end %>

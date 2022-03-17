@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_job, only: %i[ show edit update destroy ]
+  before_action :set_job, only: %i[ show edit update destroy update_job ]
 
   # GET /jobs or /jobs.json
   def index
@@ -58,6 +58,14 @@ class JobsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @job.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def update_job
+    if @job.update(status: params[:status])
+      redirect_to job_url(@job), alert: "Job was cancelled."
+    else
+      redirect_to jobs_url, alert: "Job was not cancelled, please try again."
     end
   end
 

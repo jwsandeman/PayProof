@@ -15,6 +15,8 @@ This is a huge problem in the domestic trade industry as time and time again tra
 
 This is a problem that can easily be solved with a digital application that checks a customer's funds before the job starts and then releases the funds once the job is completed and the customer is happy. This opens up a direct line of recorded communication between the tradie and homeowner and allows for issues and problems to be sorted out before progressing to the next stage/completion of the job.
 
+## The Solution
+
 ## Installation
 
 Clone the project
