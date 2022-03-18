@@ -1,140 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-md">
-    <%= link_to "PayProof", root_path, class: "navbar-brand" %>
-    <form class="container-fluid justify-content-center">
-      <div class="input-group mx-auto w-50">
-        <%= simple_form_for :search_term, url: root_path, method: "GET", html: { class: 'form-control me-2' } do |f| %>
-          <%= f.input :suburb, label: false, placeholder: "enter suburb", input_html: {value: ""} %>   
-          <%= f.submit "Search", class: "btn btn-outline-success" %>
-        <% end %>
-        <%# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> %>
-        <%# <button class="btn btn-outline-success" type="submit">Search</button> %>
-      </div>
-    </form>
-      <ul class="navbar-nav align-items-center">
-        <% if user_signed_in? %>
-          <li class="nav-item dropdown">
-            <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <% if current_user.profile_pic.attached? %>
-                <%= image_tag current_user.profile_pic, class: "rounded-circle", style: "width: 32px; height: 32px;" %>
-              <% else %>
-                <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="32" height="32" class="rounded-circle">
-              <% end %>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
-              <li class="nav-item">
-                  <%= link_to "Home", root_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "@#{current_user.username}", profile_page_path(current_user.id), class: "dropdown-item" %>
-              </li>
-              <% if !current_user.tradie? %>
-                <li class="nav-item">
-                  <%= link_to 'New Job', new_job_path, class: "dropdown-item" %>
-                </li>
-              <% end %>
-              <li class="nav-item">
-                  <%= link_to "My Jobs", jobs_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </li>
-            </ul>
-          </li>
-        <% else %>
-          <li class="nav-item">
-              <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary" %>
-          </li>
-        <% end %>
-      </ul>
-  </div>
-</nav>
 
 
-<div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <%= link_to "PayProof", root_path, class: "navbar-brand" %>
 
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <form class="container-fluid justify-content-center">
-      <div class="input-group mx-auto">
-        <%= simple_form_for :search_term, url: root_path, method: "GET", html: { class: 'form-control me-2' } do |f| %>
-          <%= f.input :suburb, label: false, placeholder: "enter suburb", input_html: {value: ""} %> 
-        <% end %>
-        <%# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> %>
-        <%# <button class="btn btn-outline-success" type="submit">Search</button> %>
-      </div>
-    </form>
-      </ul>
 
-      <div class="col-md-3 text-end">
-        <ul class="navbar-nav align-items-center">
-        <% if user_signed_in? %>
-          <li class="nav-item dropdown">
-            <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <% if current_user.profile_pic.attached? %>
-                <%= image_tag current_user.profile_pic, class: "rounded-circle", style: "width: 32px; height: 32px;" %>
-              <% else %>
-                <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="32" height="32" class="rounded-circle">
-              <% end %>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
-              <li class="nav-item">
-                  <%= link_to "Home", root_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "@#{current_user.username}", profile_page_path(current_user.id), class: "dropdown-item" %>
-              </li>
-              <% if !current_user.tradie? %>
-                <li class="nav-item">
-                  <%= link_to 'New Job', new_job_path, class: "dropdown-item" %>
-                </li>
-              <% end %>
-              <li class="nav-item">
-                  <%= link_to "My Jobs", jobs_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
-              </li>
-              <li class="nav-item">
-                  <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </li>
-            </ul>
-          </li>
-        <% else %>
-          <li class="nav-item">
-              <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary" %>
-          </li>
-                  <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
-        <% end %>
-      </ul>
-      </div>
-    </header>
-  </div>
 
+<nav class="navbar-light bg-light">
   <div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-      </a>
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+
+        <%= link_to "PayProof", root_path, class: "navbar-brand d-flex align-items-center col-md-3 mb-2 mb-md-0" %>
+
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li>
-        <div class="input-group mx-auto">
+
+        <div class="container-fluid justify-content-center">
         <%= simple_form_for :search_term, url: root_path, method: "GET", html: { class: 'form-control me-2' } do |f| %>
           <%= f.input :suburb, label: false, placeholder: "enter suburb", input_html: {value: ""} %> 
         <% end %>
         </div>
-        </li>
+
       </ul>
 
+
       <div class="col-md-3 text-end nav-item dropdown">
-      <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <% if user_signed_in? && current_user.profile_pic.attached? %>
+      <ul class="navbar-nav align-items-center">
+      <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if current_user.profile_pic.attached? %>
                 <%= image_tag current_user.profile_pic, class: "rounded-circle", style: "width: 32px; height: 32px;" %>
               <% else %>
                 <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="32" height="32" class="rounded-circle">
@@ -163,7 +55,15 @@
               <li class="nav-item">
                   <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
               </li>
-            </ul>
+              <% else %>
+          <li class="nav-item">
+              <%= link_to "Log in", new_user_session_path, class: "btn btn-outline-primary" %>
+          </li>
+        <% end %>
+      </li>
+      </ul>
       </div>
+      </ul>
     </header>
   </div>
+</nav>

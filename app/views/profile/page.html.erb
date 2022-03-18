@@ -25,8 +25,8 @@
           <span class="heading">PayProof Score</span>
           <p>No completed jobs yet</p>
         <% else %>
-          <span class="heading">Payproof Score</span><span class="heading checked"><%= @payproof_score.floor %>%</span>
-          <% if current_user.tradie? %>
+          <span class="heading">Payproof Score</span><span class="heading checked"><%= @payproof_score %>%</span>
+          <% if @user.tradie? %>
             <p><%= @successful_jobs %>/<%= @closed_jobs %> jobs completed successfully.</p>
           <% else %>
             <p><%= @paid_jobs %>/<%= @closed_jobs %> completed jobs paid on time.</p>

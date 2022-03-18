@@ -38,7 +38,7 @@ class ProfileController < ApplicationController
     end
 
     # find out the payproof score of a user
-    if current_user.tradie?
+    if @user.tradie?
       @closed_jobs = @user.tradie_jobs.status_closed.count
       @successful_jobs = 0
       @user.tradie_jobs.each do |job|

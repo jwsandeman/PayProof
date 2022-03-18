@@ -1,13 +1,16 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_job, only: %i[ show edit update destroy update_job ]
+  before_action :set_job, only: %i[ show edit update destroy update_job user_reviews ]
+  before_action :check_user, only: [:show]
+  before_action :check_ownership, only: [:edit, :update, :update_job, :destroy]
+  before_action :user_reviews, only: [:show]
 
   # GET /jobs or /jobs.json
   def index
     # this checks if the current user is a tradie
     if current_user.tradie 
       # this selects only jobs that belong to the current user (tradie) 
-      @jobs = Job.all.select {|job| job.tradie_id == current_user.id}
+      @jobs = Job.all.select {|job| job.tradie_id == current_user.id} 
     else
       # this selects only jobs that belong to the current user (homeowner) 
       @jobs = Job.all.select {|job| job.homeowner_id == current_user.id}
@@ -79,6 +82,15 @@ class JobsController < ApplicationController
     end
   end
 
+  def user_reviews
+    @user_reviews = 0
+    @job.reviews.each do |review|
+      if current_user.id == review.user_id
+        @user_reviews += 1
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_job
@@ -89,4 +101,30 @@ class JobsController < ApplicationController
     def job_params
       params.require(:job).permit(:title, :description, :street_address, :suburb, :postcode, :state, :price, :status, :successful, :paid_on_time, :payment_terms, :quote, photos: [], completion_photos: [])
     end
+
+    def check_user
+      if !@job.status_open? && !@job.successful
+        if current_user.tradie?
+          if current_user.id != @job.tradie_id
+            redirect_to root_url, alert: "You do not have access to that job"
+          end
+        else
+          if current_user.id != @job.homeowner_id
+            redirect_to root_url, alert: "You do not have access to that job"
+          end
+        end
+      end
+    end
+
+    def check_ownership
+      if current_user.tradie?
+        if current_user.id != @job.tradie_id
+          redirect_to root_url, alert: "You do not have access to that job"
+        end
+      else
+        if current_user.id != @job.homeowner_id
+          redirect_to root_url, alert: "You do not have access to that job"
+        end
+      end
+    end 
 end

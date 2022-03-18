@@ -2,6 +2,7 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_job
   before_action :find_review, only: [:edit, :update, :destroy]
+  before_action :check_ownership, only: [:edit, :update, :destroy]
 
   def new
     @review = Review.new
@@ -54,6 +55,12 @@ class ReviewsController < ApplicationController
   # finds the review based on the id paramters
   def find_review
     @review = Review.find(params[:id])
+  end
+
+  def check_ownership
+    if current_user.id != @review.user_id
+        redirect_to root_url, alert: "You do not have access to that review"
+    end
   end
 
 end
