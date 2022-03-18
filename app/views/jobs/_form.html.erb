@@ -25,7 +25,7 @@
         <br>
         <p>Upload photos of the job here (you must upload at least one photo to the job)</p>
         <%# allows the user to upload multiple files %>
-        <%= f.file_field :photos, required: true, multiple: true, class: "form-control" %><br>
+        <%= f.file_field :photos, required: true, multiple: true, accept: "image/png, image/jpg, image/jpeg, image/pdf", class: "form-control" %><br>
         <p><strong>*Required Fields</strong></p>
         <div class="form-actions">
           <%= f.button :submit, class: "btn btn-outline-success btn-md" %>
@@ -89,7 +89,7 @@
         <h1>Complete Job: <%= @job.title %></h1>
         <p>Upload photos of the completed job here</p>
         <%# change this to "completion_photos" later so that i can display only completion photos in the public card view %>
-        <%= f.file_field :completion_photos, multiple: true, class: "form-control" %>
+        <%= f.file_field :completion_photos, multiple: true, accept: "image/png, image/jpg, image/jpeg, image/pdf", class: "form-control" %>
         <%= f.input :status, :as => :hidden, :input_html => { :value => "finished" } %>
         <br>
         <div class="form-actions">

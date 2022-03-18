@@ -1,19 +1,9 @@
-<div class="d-flex justify-content-center">
-  <div class="card mb-3">
-    <h3 class="card-header">
-      <%= job.title %>
-    </h3>
-    <%# <% if job.documents.attached? %>
-      <%# <% job.documents.each do |document| %>
-        <%# <%= image_tag document, class: "card-img-top", style: "width: 400px; height: 400px;"%>
-      <%# <% end %>
-    <%# <% end %>
-    <% if job.photos.attached? %>
-      <%= image_tag job.photos.first, class: "card-img-top", style: "width: 100%;" %>
-    <% end %>
-    <div class="card-body">
-      <h4 class="card-title"><%= job.suburb.capitalize %></h4>
-      <p class="card-text"><%= job.description %></p>
+<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+  <div class="col p-4 d-flex flex-column position-static">
+    <strong class="d-inline-block mb-2 text-primary"><%= job.suburb.capitalize %></strong>
+    <h4 class="mb-0"><%= job.title %></h4>
+    <p class="card-text mb-auto overflow-hidden"><%= job.description %></p>
+    <p class="card-text mb-auto">
       <% if job.status_open? %>
         <span class="badge bg-warning rounded-pill"><%= job.status %></span>
         <span class="badge bg-primary rounded-pill">Taking quotes!</span>
@@ -21,9 +11,14 @@
         <span class="badge bg-success rounded-pill"><%= "Successfully Completed" if job.successful? %></span>
         <span class="badge bg-success rounded-pill"><%= "Paid on Time" if job.paid_on_time %></span>
       <% end %>
-      <div class="float-end">
+    </p>
+    <p class="card-text mb-auto">
       <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-primary" %>
-      </div>
-    </div>
+    </p>
+  </div>
+  <div class="col-auto d-none d-lg-block">
+    <% if job.photos.attached? %>
+      <%= image_tag job.photos.first, class: "bd-placeholder-img", width: "350", height: "250" %>
+    <% end %>
   </div>
 </div>

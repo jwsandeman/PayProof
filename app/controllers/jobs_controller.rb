@@ -1,5 +1,5 @@
 class JobsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[ new edit create update destroy update_job user_reviews ]
   before_action :set_job, only: %i[ show edit update destroy update_job user_reviews ]
   before_action :check_user, only: [:show]
   before_action :check_ownership, only: [:edit, :update, :update_job, :destroy]
@@ -83,10 +83,12 @@ class JobsController < ApplicationController
   end
 
   def user_reviews
-    @user_reviews = 0
-    @job.reviews.each do |review|
-      if current_user.id == review.user_id
-        @user_reviews += 1
+    if user_signed_in?
+      @user_reviews = 0
+      @job.reviews.each do |review|
+        if current_user.id == review.user_id
+          @user_reviews += 1
+        end
       end
     end
   end

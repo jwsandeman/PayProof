@@ -1,43 +1,70 @@
 <h1><%= @job.title %></h1>
-
-<% if @job.status_closed? && current_user.id == @job.homeowner_id %>
-    <h3>Tradesman: <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %></h3>
-<% else %>
-    <h3><strong>Job owner: </strong><%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %></h3>
+<hr>
+<h4>
+    <% if @job.homeowner.profile_pic.attached? %>
+        <%= image_tag @job.homeowner.profile_pic, class: "rounded-circle", style: "width: 48px; height: 48px;" %>
+    <% else %>
+        <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="48" height="48" class="rounded-circle">
+    <% end %> 
+    <%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %> - Job Owner
+</h4>
+<% if @job.tradie_id? %>
+    <h4>
+        <% if @job.tradie.profile_pic.attached? %>
+            <%= image_tag @job.tradie.profile_pic, class: "rounded-circle", style: "width: 48px; height: 48px;" %>
+        <% else %>
+            <img src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="mdo" width="48" height="48" class="rounded-circle">
+        <% end %> 
+        <%= link_to "@#{@job.tradie.username}", profile_page_path(@job.tradie.id), style: "text-decoration: none;" %> - Tradesman
+    </h4>
 <% end %>
-
+<hr>
 <h4><strong><%= @job.suburb %>, <%= @job.state %></strong></h4>
+<h5>
+<span class="badge bg-warning rounded-pill"><%= @job.status %></span>
+<span class="badge bg-success rounded-pill"><%= "Successfully Completed" if @job.successful? %></span>
+<span class="badge bg-success rounded-pill"><%= "Paid on Time" if @job.paid_on_time %></span>
+</h5>
 
-<% if @job.photos.attached? %>
-    <% @job.photos.each do |photo| %>
-        <%= image_tag photo, class: "d-block w-100" %>
-    <% end %>
+<!-- carousel -->
+<% if @job.successful %>
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+        <div class="carousel-inner">
+        <% if @job.completion_photos.attached? %>
+            <% @job.completion_photos.each_with_index do |photo, index| %>
+                <div id="carousel_item_<%= index %>" class="carousel-item <%= index == 0 ? 'active' : '' %>">
+                <%= image_tag photo, class: 'd-block w-100', width: "100%", height: "450" %><br>
+                </div>
+            <% end %>
+        <% end %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+<% else %>
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+        <div class="carousel-inner">
+        <% @job.photos.each_with_index do |photo, index| %>
+            <div id="carousel_item_<%= index %>" class="carousel-item <%= index == 0 ? 'active' : '' %>">
+            <%= image_tag photo, class: 'd-block w-100', width: "100%", height: "450" %><br>
+            </div>
+        <% end %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 <% end %>
 
-<%# image carousel %>
-<%# <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <%# displays each image associated with this job %>
-        <%# <% if @job.photos.attached? %> 
-            <%# <% @job.photos.each do |photos| %> 
-            <%# <div class="carousel-item active"> %>
-                <%# <%= image_tag photos, class: "d-block w-100" %> 
-            <%# </div> %>
-            <%# <% end %> 
-        <%# <% end %> 
-    <%# </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div> %> 
 <hr><p><strong>Description: </strong><%= @job.description %></p><hr> 

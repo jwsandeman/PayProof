@@ -1,53 +1,46 @@
 <%# display public job show page %>
 <%= render 'shared/public_show' %> 
 
-<%# check if current user is the job homeowner or tradie %>
-<% if current_user.id == @job.homeowner_id || current_user.id == @job.tradie_id %>
-  <p><strong>Address: </strong><%= @job.full_address %></p>
-  <p><strong>Price: </strong>$<%= @job.price.to_i %></p>
-  <p><strong>Payment terms: </strong><%= @job.payment_terms %> days</p>
+<% if user_signed_in? %>
+  <%# check if current user is the job homeowner or tradie %>
+  <% if current_user.id == @job.homeowner_id || current_user.id == @job.tradie_id %>
+    <p><strong>Address: </strong><%= @job.full_address %></p>
+    <p><strong>Price: </strong>$<%= @job.price.to_i %></p>
+    <p><strong>Payment terms: </strong><%= @job.payment_terms %> days</p>
 
-  <% if @job.status_cancelled? %>
-    <p><strong>This job was cancelled</strong>
+    <% if @job.status_cancelled? %>
+      <p><strong>This job was cancelled</strong>
+    <% else %>
+      <%# display job progress partial %>
+      <%= render "shared/job_progress" %><br>
+    <% end %>
+
+    <%= render "shared/job_accordion" %>
+
+    <% if @job.status_closed? %>
+      <h3>Reviews:</h3>
+      <%# alternative way to render a partial from the shared folder and pass the reviews %>
+      <%# <%= render 'shared/review', reviews: @job.reviews %>
+      <%= render @job.reviews %><br>
+      <% if @user_reviews == 0 %>
+        <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%# check if current user is the job homeowner and if the job is open %>
+  <% if current_user.id == @job.homeowner_id && @job.status_open? %>
+    <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
+  <%# check if current user is the job tradie and if the job is open %>
+  <% elsif current_user.tradie && @job.status_open? %>
+    <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
   <% else %>
-    <%# display job progress partial %>
-    <%= render "shared/job_progress" %><br>
+    <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
   <% end %>
-
-  <h3>Quote:</h3>
-  <% if @job.quote.attached? %>
-    <%= image_tag @job.quote, class: "d-block w-100" %>
-  <% end %>
-
-  <h3>Completion Photos:</h3>
-  <% if @job.completion_photos.attached? %>
-    <% @job.completion_photos.each do |photo| %>
-      <%= image_tag photo, class: "d-block w-100" %>
-    <% end %>
-  <% end %>
-
-  <% if @job.status_closed? %>
-    <h3>Reviews:</h3>
-    <%# alternative way to render a partial from the shared folder and pass the reviews %>
-    <%# <%= render 'shared/review', reviews: @job.reviews %>
-    <%= render @job.reviews %><br>
-    <% if @user_reviews == 0 %>
-      <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<%# check if current user is the job homeowner and if the job is open %>
-<% if current_user.id == @job.homeowner_id && @job.status_open? %>
-  <%= link_to 'Edit Job', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
-  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
-<%# check if current user is the job tradie and if the job is open %>
-<% elsif current_user.tradie && @job.status_open? %>
-  <%= link_to 'Submit Quote', edit_job_path(@job), class: "btn btn-outline-primary btn-md" %>
-  <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
 <% else %>
   <%= link_to 'Back', :back, class: "btn btn-outline-dark btn-md" %><br>
 <% end %>
-
 
 
