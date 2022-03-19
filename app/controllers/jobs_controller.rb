@@ -33,9 +33,11 @@ class JobsController < ApplicationController
   # POST /jobs or /jobs.json
   def create
     @job = Job.new(job_params)
+    # sets the job owner to the current user(homeowner)
     @job.homeowner_id = current_user.id
 
     respond_to do |format|
+      # if save is successful
       if @job.save
         format.html { redirect_to job_url(@job), notice: "Job was successfully created." }
         format.json { render :show, status: :created, location: @job }
@@ -51,8 +53,9 @@ class JobsController < ApplicationController
     respond_to do |format|
       # this checks if the update was successful
       if @job.update(job_params)
+        # if the job status is active and the current user is a tradie
         if @job.status_active? && current_user.tradie?
-          # sets the current user as the tradie of the job once they submit a quote
+          # sets the current user(tradie) as the tradie of the job once they submit a quote
           @job.update(tradie_id: current_user.id)
         end
         format.html { redirect_to job_url(@job), notice: "Job was successfully updated." }
@@ -65,6 +68,7 @@ class JobsController < ApplicationController
   end
 
   def update_job
+    # if job_update was successful
     if @job.update(status: params[:status])
       redirect_to job_url(@job), alert: "Job was cancelled."
     else
@@ -77,15 +81,17 @@ class JobsController < ApplicationController
     @job.destroy
 
     respond_to do |format|
-      format.html { redirect_to jobs_url, notice: "Job was successfully destroyed." }
+      format.html { redirect_to jobs_url, notice: "Job was successfully deleted." }
       format.json { head :no_content }
     end
   end
 
+  # checks is current user has left a review
   def user_reviews
     if user_signed_in?
       @user_reviews = 0
       @job.reviews.each do |review|
+        # if current user has left a review
         if current_user.id == review.user_id
           @user_reviews += 1
         end
@@ -94,23 +100,27 @@ class JobsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # sets the job 
     def set_job
       @job = Job.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through
     def job_params
       params.require(:job).permit(:title, :description, :street_address, :suburb, :postcode, :state, :price, :status, :successful, :paid_on_time, :payment_terms, :quote, photos: [], completion_photos: [])
     end
 
+    # checks if the user can view a job that is not open or successful on the public show page
     def check_user
+      # if the job is not open and not successful
       if !@job.status_open? && !@job.successful
         if current_user.tradie?
+          # if the current user is not the job tradie
           if current_user.id != @job.tradie_id
             redirect_to root_url, alert: "You do not have access to that job"
           end
         else
+          # if current user is not the job homeowner
           if current_user.id != @job.homeowner_id
             redirect_to root_url, alert: "You do not have access to that job"
           end
@@ -118,12 +128,15 @@ class JobsController < ApplicationController
       end
     end
 
+    # checks if a user owns the job before editing, updating or deleting
     def check_ownership
       if current_user.tradie?
+        # if the current user is not the job tradie
         if current_user.id != @job.tradie_id
           redirect_to root_url, alert: "You do not have access to that job"
         end
       else
+        # if current user is not the job homeowner
         if current_user.id != @job.homeowner_id
           redirect_to root_url, alert: "You do not have access to that job"
         end

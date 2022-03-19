@@ -3,7 +3,7 @@
     <strong class="d-inline-block mb-2 text-primary"><%= job.suburb.capitalize %></strong>
     <h4 class="mb-0"><%= job.title %></h4>
     <p class="card-text mb-auto overflow-hidden"><%= job.description %></p>
-    <p class="card-text mb-auto">
+    <div class="mb-1">
       <% if job.status_open? %>
         <span class="badge bg-warning rounded-pill"><%= job.status %></span>
         <span class="badge bg-primary rounded-pill">Taking quotes!</span>
@@ -11,10 +11,10 @@
         <span class="badge bg-success rounded-pill"><%= "Successfully Completed" if job.successful? %></span>
         <span class="badge bg-success rounded-pill"><%= "Paid on Time" if job.paid_on_time %></span>
       <% end %>
-    </p>
-    <p class="card-text mb-auto">
+    </div>
+    <div class="mb-1 py-1">
       <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-primary" %>
-    </p>
+    </div>
   </div>
   <div class="col-auto d-none d-lg-block">
     <% if job.photos.attached? %>

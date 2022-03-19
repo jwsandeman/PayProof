@@ -13,16 +13,20 @@
       </p>
       <div class="mb-1">
         <%= link_to "View Job", job_path(job.id), class:"btn btn-outline-primary" %>
+        <%# if job status is open and the user is not a tradie %>
         <% if job.status_open? && !current_user.tradie? %>
           <%= link_to 'Edit Job', edit_job_path(job), class: "btn btn-outline-primary btn-md" %>
           <%= link_to 'Delete Job', job, method: :delete, data: { confirm: 'Are you sure? All information associated with this job will be deleted including anything a tradie may have uploaded. This can not be undone' }, class: "btn btn-danger btn-md" %>
+        <%# if job status is active or verified %>
         <% elsif job.status_active? || job.status_verified? %>
           <%= link_to 'Cancel Job', update_job_path(job, status: "cancelled"), method: :patch, data: { confirm: 'Are you sure? This will cancel the job permanently. This does not null any prior agreements made with the other party. This can not be undone' }, class: "btn btn-outline-warning btn-md" %>
         <% end %>
       </div>
     </div>
     <div class="col-auto d-none d-lg-block">
+      <%# if job has photos attached %>
       <% if job.photos.attached? %>
+        <%# display the first photo %>
         <%= image_tag job.photos.first, class: "bd-placeholder-img", width: "350", height: "250" %>
       <% end %>
     </div>

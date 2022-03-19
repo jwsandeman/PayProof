@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :tradie_jobs, class_name: 'Job', foreign_key: 'tradie_id'
   has_many :homeowner_jobs, class_name: 'Job', foreign_key: 'homeowner_id'
 
-  # allows user to attached a profile picture
+  # allows user to attach a profile picture
   has_one_attached :profile_pic
 
   # allows a user to have many reviews

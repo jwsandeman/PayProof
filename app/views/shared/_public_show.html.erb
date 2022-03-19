@@ -1,6 +1,7 @@
 <h1><%= @job.title %></h1>
 <hr>
 <h4>
+    <%# if homeonwer has profile pic %>
     <% if @job.homeowner.profile_pic.attached? %>
         <%= image_tag @job.homeowner.profile_pic, class: "rounded-circle", style: "width: 48px; height: 48px;" %>
     <% else %>
@@ -8,8 +9,10 @@
     <% end %> 
     <%= link_to "@#{@job.homeowner.username}", profile_page_path(@job.homeowner.id), style: "text-decoration: none;" %> - Job Owner
 </h4>
+<%# if job has a tradie %>
 <% if @job.tradie_id? %>
     <h4>
+        <%# if tradie has profile pic %>
         <% if @job.tradie.profile_pic.attached? %>
             <%= image_tag @job.tradie.profile_pic, class: "rounded-circle", style: "width: 48px; height: 48px;" %>
         <% else %>
@@ -25,11 +28,12 @@
 <span class="badge bg-success rounded-pill"><%= "Successfully Completed" if @job.successful? %></span>
 <span class="badge bg-success rounded-pill"><%= "Paid on Time" if @job.paid_on_time %></span>
 </h5>
-
-<!-- carousel -->
+<%# carousel %>
+<%# if job was successful %>
 <% if @job.successful %>
     <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
         <div class="carousel-inner">
+        <%# if job has completion photos %>
         <% if @job.completion_photos.attached? %>
             <% @job.completion_photos.each_with_index do |photo, index| %>
                 <div id="carousel_item_<%= index %>" class="carousel-item <%= index == 0 ? 'active' : '' %>">
@@ -66,5 +70,4 @@
         </button>
     </div>
 <% end %>
-
 <hr><p><strong>Description: </strong><%= @job.description %></p><hr> 

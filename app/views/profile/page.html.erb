@@ -4,6 +4,7 @@
     <%# profile header %>
     <div class="row  align-items-center">
       <div class="col-md-auto">
+        <%# if user has a profile picture %>
         <% if @user.profile_pic.attached? %>
           <%= image_tag @user.profile_pic, class: "rounded-circle", style: "width: 160px; height: 160px;" %>
         <% else %>
@@ -11,8 +12,7 @@
         <% end %>
       </div>
       <div class="col">
-        <h1><%= @user.username %></h1>
-        <em style="font-size: 24px; padding-bottom: 28px;">@<%= @user.username %></em>
+        <h1>@<%= @user.username %></h1>
         <p><em style="padding-top: 8px;"><%= @user.tradie? ? "Tradesman" : "Homeowner" %></em></p>
       </div>
     </div>
@@ -21,13 +21,16 @@
     <%# payproof and user rating %>
     <div class="row">
       <div class="col">
+        <%# if set_user has no reviews left about them yet %>
         <% if @ratings.empty? %>
           <span class="heading">PayProof Score</span>
           <p>No completed jobs yet</p>
         <% else %>
           <span class="heading">Payproof Score</span><span class="heading checked"><%= @payproof_score %>%</span>
+          <%# if set_user is a tradie %>
           <% if @user.tradie? %>
             <p><%= @successful_jobs %>/<%= @closed_jobs %> jobs completed successfully.</p>
+          <%# else if set user is a homeowner %>
           <% else %>
             <p><%= @paid_jobs %>/<%= @closed_jobs %> completed jobs paid on time.</p>
           <% end %>
@@ -47,9 +50,7 @@
     <%# reviews %>
     <h3>Reviews</h3>
     <% @user_reviews.each do |review| %>
-        <blockquote>
-          <%= render 'reviews/review', review: review %>
-        </blockquote>
+      <%= render 'reviews/review', review: review %>
     <% end %>
 
     <%# user's jobs %>
@@ -67,6 +68,7 @@
     <% end %>
 
     <%# nav buttons %>
+    <%# if current user is viewing their own profile page %>
     <% if current_user.id == @user.id %>
         <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline-primary btn-md" %>
     <% end %>

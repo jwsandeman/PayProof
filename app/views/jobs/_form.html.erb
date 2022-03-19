@@ -9,12 +9,13 @@
       
       <%# when the job status is set to open %>
       <% if @job.status_open? %>
+        <%# If no existing job title %>
         <% if @job.title == nil %>
           <h1>Create Job: <%= @job.title %></h1>
         <% else %>
           <h1>Edit Job: <%= @job.title %></h1>
         <% end %>
-        <%= f.input :title, required: true %>
+        <%= f.input :title, required: true, label: "Short and sweet, ie - Kitchen Reno" %>
         <%= f.input :description, required: true %>
         <%= f.input :street_address, required: true %>
         <%= f.input :suburb, required: true %>
