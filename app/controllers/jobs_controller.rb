@@ -126,7 +126,7 @@ class JobsController < ApplicationController
   def check_ownership
     if current_user.tradie?
       # if the current user is not the job tradie
-      redirect_to root_url, alert: 'You do not have access to that job' if current_user.id != @job.tradie_id
+      redirect_to root_url, alert: 'You do not have access to that job' if !@job.status_open? &&current_user.id != @job.tradie_id
     elsif current_user.id != @job.homeowner_id
       # if current user is not the job homeowner
       redirect_to root_url, alert: 'You do not have access to that job'
