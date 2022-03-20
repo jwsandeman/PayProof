@@ -1,4 +1,4 @@
-# JasonSandeman_T2A2 - Pay Proof
+# JasonSandeman_T2A2 - PayProof
 
 This is a 2-sided marketplace application called PayProof that i built for my Term 2 Ruby on Rails Assignment.
 
@@ -89,7 +89,7 @@ Depending on their user status they will have access to different parts of the a
 
 Here is a [link](https://whimsical.com/payproof-sitemap-5AEDLwnz5iPdHTTGB5yJ9H) to my sitemap.
 
-![Screen Shot 2022-03-17 at 12.52.59 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/573e7e64-e36a-4381-863a-7741f820c2d4/Screen_Shot_2022-03-17_at_12.52.59_pm.png)
+![Sitemap](./app/assets/images/sitemap.png)
 
 ### Target Audience
 
@@ -167,21 +167,20 @@ The target audience for this app is Tradies and Homeowners. Tradies that are loo
 
 ## Wireframes
 
-I went with a mobile-first design philosophy for this application as I wanted a simple single-column layout across the whole application. Here is a link to my wireframes - [https://whimsical.com/payproof-wireframes-MvfaJz5dswzt3yEZL9PVrb](https://whimsical.com/payproof-wireframes-MvfaJz5dswzt3yEZL9PVrb)
+I went with a mobile-first design philosophy for this application as I wanted a simple single-column layout across the whole application. Here is a link to my [wireframes](https://whimsical.com/payproof-wireframes-MvfaJz5dswzt3yEZL9PVrb)
 
-![Screen Shot 2022-03-20 at 3.58.12 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62ca4e18-6916-4382-8424-b9bc74296a61/Screen_Shot_2022-03-20_at_3.58.12_pm.png)
-
-![Screen Shot 2022-03-20 at 4.00.27 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e8cc32c5-6ba8-4595-8581-45df705a178f/Screen_Shot_2022-03-20_at_4.00.27_pm.png)
+![Mobile](./app/assets/images/mobilewireframes.png)
+![Desktop](./app/assets/images/desktopwireframes.png)
 
 ## ERD
 
-Here is a link to this ERD - [https://whimsical.com/payproof-erd-25wggk7mCMwM3XPDkmJorC](https://whimsical.com/payproof-erd-25wggk7mCMwM3XPDkmJorC)
+Here is a link to the [ERD](https://whimsical.com/payproof-erd-25wggk7mCMwM3XPDkmJorC)
 
-![Screen Shot 2022-03-20 at 2.39.28 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b5c764ef-f716-41a3-8597-2433288a43d9/Screen_Shot_2022-03-20_at_2.39.28_pm.png)
+![ERD](./app/assets/images/erd1.png)
 
-Here is a link to this ERD - [https://drawsql.app/jwsandeman/diagrams/payproof](https://drawsql.app/jwsandeman/diagrams/payproof)
+Here is a link to the [relational model diagram](https://drawsql.app/jwsandeman/diagrams/payproof)
 
-![Screen Shot 2022-03-20 at 2.46.53 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a1210049-ab2a-4d81-a109-71e7c896a90a/Screen_Shot_2022-03-20_at_2.46.53_pm.png)
+![RMD](./app/assets/images/erd2.png)
 
 ## High-Level Components
 
@@ -239,7 +238,7 @@ Homeowners and tradies will be able to update their public profiles as well as d
 
 Users can be either homeowners or tradies which will be determined based on how they sign up. I have chosen to keep all users under the same table using a double relationship with Jobs instead of separating them into 2 separate tables of homeowners and tradies. I have done this in order to normalize the database. Users will also be able to attach profile pictures and leave reviews about their job experiences.
 
-![User.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e6e577c6-9b2b-4848-b00a-2bd3aba0342b/User.png)
+![User](./app/assets/images/User.png)
 
 Relationships/Associations:
 
@@ -256,7 +255,7 @@ Relationships/Associations:
 
 The Job model will be the central model in the database which everything else revolves around. Jobs can be created by homeowners and tradies can take on these jobs once a homeowner has approved their quote. The job model will also be using a status enum which allows me to easily check/call/update the job status as the job progresses. There will be 3 different types of media files associated with the job and each job will have 2 reviews - one from the homeowner and one from the tradie.
 
-![Job.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c9e14f34-10ef-46e6-b90c-9dfbcb1b1907/Job.png)
+![Job](./app/assets/images/Job.png)
 
 Relationships/Associations:
 
@@ -268,8 +267,7 @@ Relationships/Associations:
 - Job can have many reviews. This allows the job to have 2 reviews, one from the homeowner and one from the tradie.
 - Job can have one payment(future implementation).
 - Job can have many messages through user(future implementation).
-
-Attributes - id, homeowner_id, tradie_id, title, description, street_address, suburb, postcode, state, price, date_created, status, successful, paid_on_time
+- Attributes - id, homeowner_id, tradie_id, title, description, street_address, suburb, postcode, state, price, date_created, status, successful, paid_on_time
 
 ### **Media**
 
@@ -281,21 +279,19 @@ Relationships/Associations:
 - Photos belong to one job. This allows access to the job associated with the photos.
 - Completion Photos belong to one job. This allows access to the job associated with the completion photos.
 - Quote belongs to one job. This allows access to the job associated with the quote.
-
-Attributes - id, job_id, user_id, file_type, title, file_path
+- Attributes - id, job_id, user_id, file_type, title, file_path
 
 ### **Reviews**
 
 Once a job has been completed, both the homeowner and the tradie can submit a review for the job. This will contain all of the info associated with the review such as rating and comments.
 
-![Review.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef5889b9-2dc3-443b-80a3-ceadb666d965/Review.png)
+![Review](./app/assets/images/Review.png)
 
 Relationships/Associations:
 
 - Reviews belong to one job. This enables access to the job that the review is associated with.
 - Reviews belong to one user. This enables access to the user who left the review.
-
-Attributes - id, user_id, job_id, date_created, review, rating
+- Attributes - id, user_id, job_id, date_created, review, rating
 
 ## Future Model Implementation
 
@@ -308,8 +304,7 @@ Relationships/Associations:
 - Payment belongs to one job. This allows access to the job that the payment is associated with.
 - Payment can have one payer(FK - payer).
 - Payment can have one payee(FK - payee).
-
-Attributes - id, homeowner_id, tradie_id, job_id, card_type, card_numbers, card_expiry, description, processor, successful, date, amount
+- Attributes - id, homeowner_id, tradie_id, job_id, card_type, card_numbers, card_expiry, description, processor, successful, date, amount
 
 ### **Messages**
 
@@ -321,8 +316,7 @@ Relationships/Associations:
 - Message can be received by one receiver(FK - receiver).
 - Message can have one job.
 - Message can have many media files.
-
-Attributes - id, job_id, homeowner_id, tradie_id, message, date_created.
+- Attributes - id, job_id, homeowner_id, tradie_id, message, date_created.
 
 ## Database Relations
 
@@ -340,39 +334,33 @@ Note: Messages and payments are out of the scope of this assignment and therefor
 
 My database schema is fairly similar to my ERD with the main differences being the built-in active storage tables (attachment, blobs, and variant records) that rails creates which have different attributes to my ERD. I also do not have the payment and messaging tables as they were outside of the scope of this assignment(i ran out of time).
 
-![schema.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ff6ef191-e383-4cf0-93ba-c6ab243863c7/schema.png)
+![Schema](./app/assets/images/schema.png)
 
-# Project Management
+## Project Management
 
-To help me organise this project and stick to my goals I have used a Notion project management dashboard. Here is the link - [https://www.notion.so/jwsandeman/Project-Management-e2de3b249e28449c98bfd2b6cea4b4fc#a20d11b0014248a79551b1c3e8183824](https://www.notion.so/Project-Management-e2de3b249e28449c98bfd2b6cea4b4fc)  to the dashboard where you will find my "Tasks" board and my "Project Deliverables" timeline which I used to manage my time.
+To help me organise this project and stick to my goals I have used a Notion project management dashboard. Here is the [link](https://jwsandeman.notion.site/T2A2-Marketplace-Project-81506ef3995f4e16bb5189c259f5baa7)  to the dashboard where you will find my "Tasks" board and my "Project Deliverables" timeline which I used to manage my time.
 
 I used the Tasks board to keep track of any ideas, questions, bugs or general once-off tasks that came to mind.
 
-![Screen Shot 2022-03-19 at 1.16.07 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d885ec69-35bd-47a5-b260-69a28200772b/Screen_Shot_2022-03-19_at_1.16.07_pm.png)
-
-![Screen Shot 2022-03-19 at 1.14.51 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1f8c5339-a15d-4863-948e-a62a0bd7a83c/Screen_Shot_2022-03-19_at_1.14.51_pm.png)
+![Tasks1](./app/assets/images/task1.png)
+![Tasks2](./app/assets/images/task2.png)
 
 The Deliverables high-level timeline was used to manage the project implementation plan and keep me accountable.
 
-![Screen Shot 2022-03-18 at 9.52.27 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/97c317f2-89f2-4102-a869-605a9900cdbf/Screen_Shot_2022-03-18_at_9.52.27_pm.png)
-
-![Screen Shot 2022-03-18 at 9.52.56 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4d9dde57-bfcf-45d2-a8ba-e056814b0150/Screen_Shot_2022-03-18_at_9.52.56_pm.png)
+![Deliverables1](./app/assets/images/deliverable1.png)
+![Deliverables2](./app/assets/images/deliverables2.png)
 
 I set up the deliverables timeline by breaking each requirement of the assignment into its own card and then if needed I would then break that down even further. For example, with my user stories, I broke that down into a card in the deliverables timeline and then I broke it down further into its own kanban board for MVP user stories so that I could track each individual user story.
 
-![Screen Shot 2022-03-20 at 11.05.33 am.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3245e0e2-6679-4c46-a88b-1d649b7e3ae5/Screen_Shot_2022-03-20_at_11.05.33_am.png)
-
-![Screen Shot 2022-03-20 at 11.10.25 am.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6ddcfdf8-e1c2-4211-9ac7-622ad332ae11/Screen_Shot_2022-03-20_at_11.10.25_am.png)
-
-![Screen Shot 2022-03-20 at 10.36.25 am.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3d872ec5-4b62-43cd-8078-73aeb637dc3b/Screen_Shot_2022-03-20_at_10.36.25_am.png)
-
-![Screen Shot 2022-03-20 at 11.03.44 am.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1ee7bb26-ae6e-460d-99cb-317c6ad3038c/Screen_Shot_2022-03-20_at_11.03.44_am.png)
+![Documentation](./app/assets/images/documentationrequirements.png)
+![User Stories](./app/assets/images/userstories.png)
+![MVP User Stories](./app/assets/images/mvpuserstories.png)
+![User Story](./app/assets/images/userstory.png)
 
 This method worked really well especially for tracking the code requirements as i was able to break each of the main requirements down into cards and then add the rubric to each individual requirement which helped me stay aligned with the assignment requirements.
 
-![Screen Shot 2022-03-20 at 4.22.11 pm (3).png](<https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0778b64b-195c-4c0c-9029-70beaf2edde3/Screen_Shot_2022-03-20_at_4.22.11_pm_(3).png>)
-
-![Screen Shot 2022-03-20 at 4.23.58 pm.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/03f592c2-fd8c-4646-ab6e-c0b542968097/Screen_Shot_2022-03-20_at_4.23.58_pm.png)
+![Code Requirements](./app/assets/images/corerequirements.png)
+![Heroku](./app/assets/images/heroku.png)
 
 ## Attribution
 
