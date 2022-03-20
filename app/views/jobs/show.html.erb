@@ -1,12 +1,24 @@
 <%# display public job show page %>
 <%= render 'shared/public_show' %> 
+<% if @job.status_closed? %>
+  <h3>Reviews:</h3>
+  <%# alternative way to render a partial from the shared folder and pass the reviews %>
+  <%# <%= render 'shared/review', reviews: @job.reviews %>
+  <%# render job reviews %>
+  <% if @job.reviews.empty? %>
+    <p>No reviews have been left for this job yet.</p>
+  <% else %>
+    <%= render @job.reviews %><br>
+  <% end %>
+  <%# if user has left 0 reviews for this job %>
+  <% if @user_reviews == 0 %>
+    <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md my-2" %>
+  <% end %>
+<% end %>
 <%# check if user is signed in %>
 <% if user_signed_in? %>
   <%# check if current user is the job homeowner or tradie %>
   <% if current_user.id == @job.homeowner_id || current_user.id == @job.tradie_id %>
-    <p><strong>Address: </strong><%= @job.full_address %></p>
-    <p><strong>Price: </strong>$<%= @job.price.to_i %></p>
-    <p><strong>Payment terms: </strong><%= @job.payment_terms %> days</p>
     <%# if job status is cancelled %>
     <% if @job.status_cancelled? %>
       <p><strong>This job was cancelled</strong>
@@ -17,17 +29,6 @@
     <%# display job accordion %>
     <%= render "shared/job_accordion" %>
     <%# if the job status is closed %>
-    <% if @job.status_closed? %>
-      <h3>Reviews:</h3>
-      <%# alternative way to render a partial from the shared folder and pass the reviews %>
-      <%# <%= render 'shared/review', reviews: @job.reviews %>
-      <%# render job reviews %>
-      <%= render @job.reviews %><br>
-      <%# if user has left 0 reviews for this job %>
-      <% if @user_reviews == 0 %>
-        <%= link_to 'Add Review', new_job_review_path(@job), class: "btn btn-outline-primary btn-md" %>
-      <% end %>
-    <% end %>
   <% end %>
   <%# check if current user is the job homeowner and if the job is open %>
   <% if current_user.id == @job.homeowner_id && @job.status_open? %>
