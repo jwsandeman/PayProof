@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_job
-  before_action :find_review, only: [:edit, :update, :destroy]
-  before_action :check_ownership, only: [:edit, :update, :destroy]
+  before_action :find_review, only: %i[edit update destroy]
+  before_action :check_ownership, only: %i[edit update destroy]
 
   def new
     @review = Review.new
@@ -17,27 +17,26 @@ class ReviewsController < ApplicationController
 
     # redirect to job on successful review save
     if @review.save
-      redirect_to job_path(@job), notice: "Review was successfully created."
+      redirect_to job_path(@job), notice: 'Review was successfully created.'
     else
-      render 'new', alert: "Unable to create review."
+      render 'new', alert: 'Unable to create review.'
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     # redirect to job on successful review update
     if @review.update(review_params)
-      redirect_to job_path(@job), notice: "Review was successfully updated."
-    else 
-      render 'edit', alert: "Unable to update review."
+      redirect_to job_path(@job), notice: 'Review was successfully updated.'
+    else
+      render 'edit', alert: 'Unable to update review.'
     end
   end
 
   def destroy
     @review.destroy
-    redirect_to job_path(@job), notice: "Review was successfully deleted."
+    redirect_to job_path(@job), notice: 'Review was successfully deleted.'
   end
 
   private
@@ -58,9 +57,6 @@ class ReviewsController < ApplicationController
   end
 
   def check_ownership
-    if current_user.id != @review.user_id
-        redirect_to root_url, alert: "You do not have access to that review"
-    end
+    redirect_to root_url, alert: 'You do not have access to that review' if current_user.id != @review.user_id
   end
-
 end

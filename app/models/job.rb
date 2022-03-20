@@ -31,7 +31,6 @@ class Job < ApplicationRecord
 
   # gets the full address
   def full_address
-    "#{self.street_address} #{self.suburb.capitalize} #{self.postcode} #{self.state} "
+    "#{street_address} #{suburb.capitalize} #{postcode} #{state} "
   end
-
-end 
+end
